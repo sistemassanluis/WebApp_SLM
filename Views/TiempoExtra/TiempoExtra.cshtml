@@ -1,0 +1,154 @@
+﻿@using WebApp_SLM.Models.HorasExtras
+
+@model OverTime
+
+@{
+
+    ViewData["Title"] = "Administrar Horas Extras";
+
+    string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+    string fechaHoraActual = DateTime.Now.ToString("yyyy-MM-dd HH:MM");
+}
+
+
+<style>
+    .ui-autocomplete {
+        max-height: 120px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        z-index: 99999 !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-6">
+            <h5 class="card-header">Lista de eventos</h5>
+            
+            <div class="card-body">
+                               
+                <div class="row g-6" style="margin-top:5px;margin-bottom:16px;">
+                    <div class="col-md-6">
+                        <label for="html5-date-input" class="form-label">Fecha Inicio:</label>
+                        <input class="form-control" type="date" value="@fechaActual" id="html5-date-input" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="html5-date-input" class="form-label">Fecha Fin:</label>
+                        <input class="form-control" type="date" value="@fechaActual" id="html5-date-input" />
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">
+                    Nuevo evento
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col mb-6">
+                                        <label for="personal" class="form-label">Buscar Personal</label>
+                                        <div class="input-group mb-3">
+
+                                            <input type="text" class="form-control" id="txtbuscar">
+                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+
+                                        </div>
+                                    </div>
+                                </div>                                
+                                <div class="row g-6">
+                                    <div class="col mb-0">
+                                        <label for="fechaInicio" class="form-label">Fecha / hora inicio</label>
+                                        <input class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaInicio" required />
+                                    </div>
+                                    <div class="col mb-0">
+                                        <label for="fechaFin" class="form-label">Fecha / hora fin</label>
+                                        <input class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaFin" required />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:20px;">
+                                    <div class="col mb-6">
+
+                                       <label class="form-label" for="motivos">Motivo(s) </label>
+                                        <!-- Build your select: -->
+                                        <select id="motivoslt" class="selectpicker" multiple>
+                                            <option value="cheese">Cheese</option>
+                                            <option value="tomatoes">Tomatoes</option>
+                                            <option value="mozzarella">Mozzarella</option>
+                                            <option value="mushrooms">Mushrooms</option>
+                                            <option value="pepperoni">Pepperoni</option>
+                                            <option value="onions">Onions</option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mb-6">
+                                        <label class="form-label" for="basic-icon-default-message">Observación</label>
+                                        <div class="input-group input-group-merge">
+                                            <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-comment"></i></span>
+                                            <textarea id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+    <script>
+        $('.selectpicker').selectpicker('refresh');
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#txtbuscar").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("searchPersonal", "TiempoExtra")?texto=" + request.term,
+                        dataType: "json",
+                        success: function (data) {
+                            response(data);
+                        }
+                    })
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    console.log(ui)
+
+
+                    event.preventDefault();
+                    $(this).val("");
+                },
+                focus: function (event, ui) {
+                    event.preventDefault();
+                    $(this).val(ui.item.label);
+                }
+
+            })
+        })
+
+    </script>
+
+    
+}
