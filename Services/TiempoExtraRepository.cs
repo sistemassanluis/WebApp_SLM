@@ -17,10 +17,6 @@ namespace WebApp_SLM.Services
         {
             connSqlRRHH = configuration.GetConnectionString("conecSQlServerRRHH");
         }
-
-
-
-
         public List<FindPersonal> SeachPersonal(string texto)
         {
             List<FindPersonal> lista = new List<FindPersonal>();

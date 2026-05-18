@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "WdHFdUHNk4+2R6WlYWn0M4aN5nuX26MV0tKWyxC0aZzl3pa5eQnE/dmWCYu4N0OmJf7Lkfzi/OP050vhC4X26Q==",
+  "dgSpecHash": "bSu7+qn4DoqpNETEVCFzdH0vfAs69/7tArgpMUmuH00XpR/ZpzYHK0BBjv/vVDouWqxHrgudCShGgAs8KTFxhg==",
   "success": true,
   "projectFilePath": "D:\\fuentes\\WebApp_SLM\\WebApp_SLM.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malarcon\\.nuget\\packages\\bootstrap\\3.0.0\\bootstrap.3.0.0.nupkg.sha512",
     "C:\\Users\\malarcon\\.nuget\\packages\\bootstrap-select\\1.13.18\\bootstrap-select.1.13.18.nupkg.sha512",
+    "C:\\Users\\malarcon\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
     "C:\\Users\\malarcon\\.nuget\\packages\\jquery\\1.9.1\\jquery.1.9.1.nupkg.sha512",
     "C:\\Users\\malarcon\\.nuget\\packages\\microsoft.bcl.cryptography\\8.0.0\\microsoft.bcl.cryptography.8.0.0.nupkg.sha512",
     "C:\\Users\\malarcon\\.nuget\\packages\\microsoft.data.sqlclient\\7.0.1\\microsoft.data.sqlclient.7.0.1.nupkg.sha512",
