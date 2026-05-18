@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\aplica\\sanluis\\WebApp_SLM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|c:\\aplica\\sanluis\\webapp_slm\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|c:\\aplica\\sanluis\\webapp_slm\\views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|c:\\aplica\\sanluis\\webapp_slm\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,39 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\aplica\\sanluis\\WebApp_SLM\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\aplica\\sanluis\\WebApp_SLM\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-09T04:21:00.433Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADYAAAAHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-08T16:54:16.547Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "TiempoExtra.cshtml",
               "DocumentMoniker": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
               "RelativeDocumentMoniker": "Views\\TiempoExtra\\TiempoExtra.cshtml",
               "ToolTip": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
               "RelativeToolTip": "Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "ViewState": "AgIAAHMAAAAAAAAAAAARwIoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAF8AAAAANDMzMzMrwGQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-08T16:53:59.679Z",
+              "WhenOpened": "2026-05-11T02:52:48.044Z",
               "EditorCaption": ""
             }
           ]

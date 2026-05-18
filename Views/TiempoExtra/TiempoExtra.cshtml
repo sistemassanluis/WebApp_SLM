@@ -74,8 +74,13 @@
                                 </div>
                                 <div class="row" style="margin-top:20px;">
                                     <div class="col mb-6">
+                                        <label for="motivoSlt" class="form-label">Motivo(s)</label>
+                                        <select id="motivoSlt" name="motivoSlt" class="form-select" aria-label="Motivos">
 
-                                       
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
                                         
                                     </div>
                                 </div>
@@ -108,7 +113,6 @@
 
 @section Scripts{
 
-
     <script>
         $(document).ready(function () {
             $("#txtbuscar").autocomplete({
@@ -137,7 +141,5 @@
             })
         })
 
-    </script>
-
-    
+    </script>    
 }
