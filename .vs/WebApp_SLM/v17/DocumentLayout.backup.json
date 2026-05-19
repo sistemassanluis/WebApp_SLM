@@ -1,37 +1,23 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\aplica\\sanluis\\WebApp_SLM\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|c:\\aplica\\sanluis\\webapp_slm\\views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 3919,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 2001,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TiempoExtra.cshtml",
-              "DocumentMoniker": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "RelativeDocumentMoniker": "Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "ToolTip": "C:\\aplica\\sanluis\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "RelativeToolTip": "Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "ViewState": "AgIAAF8AAAAANDMzMzMrwGQAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-11T02:52:48.044Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             }
           ]
         }

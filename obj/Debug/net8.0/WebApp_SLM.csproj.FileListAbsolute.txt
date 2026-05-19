@@ -71,6 +71,7 @@ D:\fuentes\WebApp_SLM\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.C
 D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.csproj.AssemblyReference.cache
 D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.csproj.Up2Date
 D:\fuentes\WebApp_SLM\bin\Debug\net8.0\libman.json
+D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.sourcelink.json
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\appsettings.Development.json
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\appsettings.json
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\libman.json
@@ -81,6 +82,7 @@ C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\WebApp_SLM.deps.json
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\WebApp_SLM.runtimeconfig.json
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\WebApp_SLM.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\WebApp_SLM.pdb
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\Dapper.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
@@ -148,4 +150,3 @@ C:\aplica\sanluis\WebApp_SLM\obj\Debug\net8.0\refint\WebApp_SLM.dll
 C:\aplica\sanluis\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.pdb
 C:\aplica\sanluis\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.genruntimeconfig.cache
 C:\aplica\sanluis\WebApp_SLM\obj\Debug\net8.0\ref\WebApp_SLM.dll
-D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.sourcelink.json
