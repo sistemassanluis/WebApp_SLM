@@ -20,16 +20,17 @@ namespace WebApp_SLM.Services
 
         public async Task<IEnumerable<TablasItem>> TablasFindById(long id)        {
             using var conn = new SqlConnection(connSqlRRHH);
+            conn.Open();
             return await conn.QueryAsync<TablasItem>(@"select t.id as idTabla,
-                                                            nt.descripcion,
+                                                            nst.descripcion as descripcionTabla,
                                                             nst.id as idSubtabla,
                                                             nst.descripcion,
                                                             nst.descripcion2,
                                                             nst.abreviado,
                                                             nst.codigo
-                                                        from gn_tablas t inner join gn_subtablas st on (t.id = st.tabla_id)
+                                                        from gn_tablas t inner join gn_subtablas nst on (t.id = nst.tabla_id)
                                                         where t.id = @id
-                                                        order by st.descripcion", new {id});
+                                                        order by nst.descripcion", new {id});
             
         }
     }

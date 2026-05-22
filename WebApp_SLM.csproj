@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="bootstrap-select" Version="1.13.18" />
     <PackageReference Include="Dapper" Version="2.1.79" />
+    <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
   </ItemGroup>
 

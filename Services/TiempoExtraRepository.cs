@@ -1,11 +1,13 @@
 ﻿using System.Data.SqlTypes;
 using WebApp_SLM.Models.HorasExtras;
 using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace WebApp_SLM.Services
 {
     public interface ITiempoExtraRepository
     {
+        Task Crud_HoraExtra(OverTime overtime, OverTimeReason motivos, string tipoTrs);
         List<FindPersonal> SeachPersonal(string texto);
         
     }
@@ -51,5 +53,30 @@ namespace WebApp_SLM.Services
             }
             return lista;
         }
+
+        public async Task Crud_HoraExtra (OverTime overtime, Object[] motivos, String tipoTrs)
+        {
+            using var conn = new SqlConnection(connSqlRRHH);
+            var id = await conn.QuerySingleAsync<long>("sp_ast_guardar_overtime_event",
+                new
+                {
+                    overtime.id,
+                    overtime.personal_id,
+                    overtime.dia_hora_inicio,
+                    overtime.dia_hora_fin,
+                    overtime.observacion,
+                    overtime.id_user_add,
+                    overtime.id_user_modify,
+                    tipoTrs,
+                    motivos
+                },
+                commandType: System.Data.CommandType.StoredProcedure
+                );
+            overtime.id = id;
+        }
+
+
+
+
     }
 }

@@ -45,7 +45,7 @@
                 <!-- Modal -->
                 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
                     <div class="modal-dialog">
-                        <form class="modal-content">
+                        <form class="modal-content" asp-action="CrearHoraExtra">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -55,65 +55,60 @@
                                     <div class="col mb-6">
                                         <label for="personal" class="form-label">Buscar Personal</label>
                                         <div class="input-group mb-3">
-
                                             <input type="text" class="form-control" id="txtbuscar">
                                             <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-
                                         </div>
+
                                     </div>
+                                    <input type="hidden" asp-for="personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
                                 </div>                                
                                 <div class="row g-6">
                                     <div class="col mb-0">
-                                        <label for="fechaInicio" class="form-label">Fecha / hora inicio</label>
-                                        <input class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaInicio" required />
+                                        <label asp-for="dia_hora_inicio" for="fechaInicio" class="form-label">Fecha / hora inicio</label>
+                                        <input asp-for="dia_hora_inicio" class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaInicio" required />
                                     </div>
                                     <div class="col mb-0">
-                                        <label for="fechaFin" class="form-label">Fecha / hora fin</label>
-                                        <input class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaFin" required />
+                                        <label asp-for="dia_hora_fin" for="fechaFin" class="form-label">Fecha / hora fin</label>
+                                        <input asp-for="dia_hora_fin" class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaFin" required />
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:20px;">
                                     <div class="col mb-6">
-                                        <label for="motivoSlt" class="form-label">Motivo(s)</label>
-                                        <select id="motivoSlt" name="motivoSlt" class="form-select" aria-label="Motivos">
+                                        <label asp-for="motivos" for="sltMotivo" class="form-label">Motivo(s)</label>
+                                        <select asp-for="motivos" id="sltMotivo"  class="form-select" multiple aria-label="Motivo(s)">
 
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
                                         </select>
                                         
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col mb-6">
-                                        <label class="form-label" for="basic-icon-default-message">Observación</label>
+                                        <label asp-for="observacion" class="form-label" for="basic-icon-default-message">Observación</label>
                                         <div class="input-group input-group-merge">
                                             <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-comment"></i></span>
-                                            <textarea id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
+                                            <textarea asp-for="observacion"  id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary">Guardar</button>
+                                <button class="btn btn-primary">Guardar</button>
                             </div>
                         </form>
-                    </div>
-                    
-                </div>
-               
+                    </div>                    
+                </div>                
             </div>
         </div>
     </div>
-
-
 </div>
 
 
 @section Scripts{
-
+    
     <script>
+        const urlListasItemTabla = '@Url.Action("listarItemTablas", "Tablas")?id=4'
+
         $(document).ready(function () {
             $("#txtbuscar").autocomplete({
                 source: function (request, response) {
@@ -127,9 +122,9 @@
                 },
                 minLength: 1,
                 select: function (event, ui) {
-                    console.log(ui)
-
-
+                    console.log(ui.item)
+                    $("#txtPersonalId").val(ui.item.value)
+                    console.log(ui.item)
                     event.preventDefault();
                     $(this).val("");
                 },
@@ -139,6 +134,23 @@
                 }
 
             })
+
+            $("#sltMotivo").ready(async function () {
+                const valorTabla = 4;
+                const respuesta = await fetch(urlListasItemTabla, {
+                    method: "POST",
+                    body: valorTabla,
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    }                
+                })
+
+                const json = await respuesta.json();
+                console.log(json);
+                const opciones = json.map(item => `<option value=${item.idSubtabla}>${item.descripcion}</option>`);
+                $("#sltMotivo").html(opciones);
+            })
+
         })
 
     </script>    

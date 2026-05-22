@@ -28,7 +28,7 @@
           }
         }
       },
-      "jQuery/1.9.1": {
+      "jQuery/3.7.1": {
         "type": "package"
       },
       "Microsoft.Bcl.Cryptography/8.0.0": {
@@ -674,23 +674,26 @@
         "readme.md"
       ]
     },
-    "jQuery/1.9.1": {
-      "sha512": "HiX9icLyiJGgiL5EOIn0d1MBPHVV2M9mzWT4mANdniDNR51RvAFTyKEXEd2+5yQJ4PJ5xePOR61Vjj/omQzYcw==",
+    "jQuery/3.7.1": {
+      "sha512": "rF8hnQxmBMlIspf8VN72bALtmIpKx6hKRpUdTOkp/8JzfF8KgNqHut5lOy9kFGvFIStumCqJ+PBxpI9gxpRYfQ==",
       "type": "package",
-      "path": "jquery/1.9.1",
+      "path": "jquery/3.7.1",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "Content/Scripts/jquery-1.9.1-vsdoc.js",
-        "Content/Scripts/jquery-1.9.1.js",
-        "Content/Scripts/jquery-1.9.1.min.js",
-        "Content/Scripts/jquery-1.9.1.min.map",
+        "Content/Scripts/jquery-3.7.1-vsdoc.js",
+        "Content/Scripts/jquery-3.7.1.js",
+        "Content/Scripts/jquery-3.7.1.min.js",
+        "Content/Scripts/jquery-3.7.1.min.map",
+        "Content/Scripts/jquery-3.7.1.slim.js",
+        "Content/Scripts/jquery-3.7.1.slim.min.js",
+        "Content/Scripts/jquery-3.7.1.slim.min.map",
         "Tools/common.ps1",
         "Tools/install.ps1",
-        "Tools/jquery-1.9.1.intellisense.js",
+        "Tools/jquery-3.7.1.intellisense.js",
         "Tools/uninstall.ps1",
-        "jquery.1.9.1.nupkg.sha512",
+        "jquery.3.7.1.nupkg.sha512",
         "jquery.nuspec"
       ]
     },
@@ -1428,28 +1431,24 @@
     "net8.0": [
       "Dapper >= 2.1.79",
       "Microsoft.Data.SqlClient >= 7.0.1",
-      "bootstrap-select >= 1.13.18"
+      "bootstrap-select >= 1.13.18",
+      "jQuery >= 3.7.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\epalo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\malarcon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\aplica\\sanluis\\WebApp_SLM\\WebApp_SLM.csproj",
+      "projectUniqueName": "D:\\fuentes\\WebApp_SLM\\WebApp_SLM.csproj",
       "projectName": "WebApp_SLM",
-      "projectPath": "C:\\aplica\\sanluis\\WebApp_SLM\\WebApp_SLM.csproj",
-      "packagesPath": "C:\\Users\\epalo\\.nuget\\packages\\",
-      "outputPath": "C:\\aplica\\sanluis\\WebApp_SLM\\obj\\",
+      "projectPath": "D:\\fuentes\\WebApp_SLM\\WebApp_SLM.csproj",
+      "packagesPath": "C:\\Users\\malarcon\\.nuget\\packages\\",
+      "outputPath": "D:\\fuentes\\WebApp_SLM\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\epalo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\malarcon\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1457,7 +1456,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1475,8 +1473,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -1493,6 +1490,10 @@
           "bootstrap-select": {
             "target": "Package",
             "version": "[1.13.18, )"
+          },
+          "jQuery": {
+            "target": "Package",
+            "version": "[3.7.1, )"
           }
         },
         "imports": [
@@ -1514,7 +1515,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

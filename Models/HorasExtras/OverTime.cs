@@ -11,5 +11,6 @@
         public long id_user_add { get; set; }
         public DateTime date_modify { get; set; }
         public long id_user_modify { get; set; }
+        public long[] motivos { get; set; } =[]; 
     }
 }
