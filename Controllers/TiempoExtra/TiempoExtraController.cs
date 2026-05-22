@@ -37,27 +37,21 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         public async Task<ActionResult> CrearHoraExtra(OverTime overtime)
         {
             overtime.id_user_add = 1;
-            overtime.observacion = overtime.observacion.Trim().Length < 1 ? overtime.observacion : "Sin Observación";
+            overtime.observacion = overtime.observacion.Trim().Length > 0 ? overtime.observacion.Trim() : "Sin Observación";
 
             List<MiListaType> lista = new List<MiListaType>();
-            int ind = 0;
             foreach (var item in overtime.motivos)
             {
-                lista.Add(
-                
-                    Valorid = item,
-                    valor2 = "",
-                    valor3 = ""
-                );
+                MiListaType newItem = new MiListaType(item, "", "");
+                lista.Add(newItem);
             }
-
 
             if (!ModelState.IsValid)
             {
                 return View(overtime);
             }
-            await repo.Crud_HoraExtra(overtime, null, "I");
-            return RedirectToAction("index");
+            await repo.Crud_HoraExtra(overtime, lista, "I");
+            return RedirectToAction("TiempoExtra");
         }
 
        
