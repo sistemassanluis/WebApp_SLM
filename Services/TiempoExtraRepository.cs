@@ -10,8 +10,9 @@ namespace WebApp_SLM.Services
     public interface ITiempoExtraRepository
     {
         Task Crud_HoraExtra(OverTime overtime, List<MiListaType> motivos, string tipoTrs);
+        Task <IEnumerable<ListaTiempoExtra>> ListarHorasExtras(DateTime fechaini, DateTime fechafin, long personal);
         List<FindPersonal> SeachPersonal(string texto);
-        
+        Task<IEnumerable<HorarioPersonal>> ViewHorarioPersonal(long id_personal);
     }
     public class TiempoExtraRepository : ITiempoExtraRepository
     {
@@ -55,8 +56,21 @@ namespace WebApp_SLM.Services
             }
             return lista;
         }
-
-        public async Task Crud_HoraExtra (OverTime overtime, List<MiListaType> motivos, String tipoTrs)
+        public async Task<IEnumerable<ListaTiempoExtra>> ListarHorasExtras(DateTime fechaini, DateTime fechafin, long personal)
+        {
+            using var conn = new SqlConnection(connSqlRRHH);
+            IEnumerable<ListaTiempoExtra> lista = await conn.QueryAsync<ListaTiempoExtra>("sp_ast_lista_overtime",
+                new
+                {
+                    fechaini,
+                    fechafin,
+                    personal
+                },
+                commandType: System.Data.CommandType.StoredProcedure
+                );
+            return lista;
+        }
+        public async Task Crud_HoraExtra(OverTime overtime, List<MiListaType> motivos, String tipoTrs)
         {
             DataTable dtMot = new DataTable();
             dtMot.Columns.Add("Valorid", typeof(long));
@@ -86,6 +100,28 @@ namespace WebApp_SLM.Services
                 commandType: System.Data.CommandType.StoredProcedure
                 );
             overtime.id = id;
+        }
+
+        public async Task<IEnumerable<HorarioPersonal>> ViewHorarioPersonal(long id_personal)
+        {
+            using var conn = new SqlConnection(connSqlRRHH);
+            return await conn.QueryAsync<HorarioPersonal>(@"select id
+                                                        ,personal_id
+                                                        ,dia
+                                                        ,(case hp.dia when 1 then 'Lu' when 2 then 'Ma' when 3 then 'Mi'  when 4 then 'Ju' when 5 then 'Vi' when 6 then 'Sa' when 7 then 'Do' else '??' end) as dia_Label
+                                                        ,turno_cruzado
+                                                        ,hora_ingreso
+                                                        ,hora_salida
+                                                        ,hora_refr_inicio
+                                                        ,hora_refr_fin
+                                                        ,date_add
+                                                        ,id_user_add
+                                                        ,date_modify
+                                                        ,id_user_modify
+                                                        from ast_horario_personal hp
+                                                        where personal_id = @id_personal
+                                                        order by dia", new { id_personal });
+
         }
     }
 }

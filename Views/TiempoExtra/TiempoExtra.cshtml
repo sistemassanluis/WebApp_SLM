@@ -30,55 +30,118 @@
                                
                 <div class="row g-6" style="margin-top:5px;margin-bottom:16px;">
                     <div class="col-md-6">
-                        <label for="html5-date-input" class="form-label">Fecha Inicio:</label>
-                        <input class="form-control" type="date" value="@fechaActual" id="html5-date-input" />
+                        <label for="dtFechaIni" class="form-label">Fecha Inicio:</label>
+                        <input class="form-control" type="date" value="@fechaActual" id="dtFechaIni" />
                     </div>
                     <div class="col-md-6">
-                        <label for="html5-date-input" class="form-label">Fecha Fin:</label>
-                        <input class="form-control" type="date" value="@fechaActual" id="html5-date-input" />
+                        <label for="dtFechaFin" class="form-label">Fecha Fin:</label>
+                        <input class="form-control" type="date" value="@fechaActual" id="dtFechaFin" />
                     </div>
                 </div>
                 
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">
                     Nuevo evento
                 </button>
-                <!-- Modal -->
-                <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
-                    <div class="modal-dialog">
-                        <form class="modal-content" asp-action="CrearHoraExtra">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col mb-6">
-                                        <label for="personal" class="form-label">Buscar Personal</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" id="txtbuscar">
-                                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                                        </div>
-
-                                    </div>
-                                    <input type="hidden" asp-for="personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
-                                </div>                                
-                                <div class="row g-6">
-                                    <div class="col mb-0">
-                                        <label asp-for="dia_hora_inicio" for="fechaInicio" class="form-label">Fecha / hora inicio</label>
-                                        <input asp-for="dia_hora_inicio" class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaInicio" required />
-                                    </div>
-                                    <div class="col mb-0">
-                                        <label asp-for="dia_hora_fin" for="fechaFin" class="form-label">Fecha / hora fin</label>
-                                        <input asp-for="dia_hora_fin" class="form-control" type="datetime-local" value="@fechaHoraActual" id="fechaFin" required />
+                
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="my-12">
+<div class="card">
+    <h5 class="card-header">LISTA DE RESULTADOS</h5>
+    <div class="table-responsive">
+        <table class="table table-hover" id="dataTable">
+            <thead>
+                <tr>
+                    <th>PERSONAL</th>
+                    <th>HORARIO</th>
+                    <th>H.EXTRA INICIO</th>
+                    <th>H.EXTRA FIN</th>
+                    <th>HORAS EXTRAS</th>
+                    <th>MINUTOS EXTRAS</th>
+                    <th>MOTIVO(S)</th>
+                    <th>OBSERVACION</th>
+                    <th>FECHA INGRESO</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                      
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" asp-action="CrearHoraExtra">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xl">
+                        <div class="card mb-6">
+                            <div class="card-body">
+                                <div class="col mb-6">
+                                    <label for="personal" class="form-label">Buscar Personal</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control" id="txtbuscar">
                                     </div>
                                 </div>
+                                <div class="col mb-6">
+                                    <input type="hidden" asp-for="personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
+                                    <input type="hidden" asp-for="dia_hora_inicio" class="form-control" id="fechaInicio" required />
+                                    <input type="hidden" asp-for="dia_hora_fin" class="form-control" id="fechaFin" required />
+                                </div>
+                                <div class="col mb-6">
+                                    <div class="card">
+                                        <h6 class="card-header">Personal Seleccionado</h6>
+                                        <table class="table table-borderless" id="dataSelected">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl">
+                        <div class="card mb-6">
+                            <div class="card-body">
+                                <div class="row g-6">
+                                    <div class="col mb-0">
+                                        <label for="fechaInicioT" class="form-label" >Fecha Inicio</label>
+                                        <input class="form-control" type="date" value="@fechaActual" id="FechaInicioT" required />
+                                    </div>
+                                    <div class="col mb-0">
+                                        <label for="HoraInicioT" class="form-label">Hora inicio</label>
+                                        <input class="form-control" type="time" id="HoraInicioT" required />
+                                    </div>
+                                </div>
+
+                                <div class="row g-6" style="margin-top:10px;">
+                                    <div class="col mb-0">
+                                        <label for="FechaFinT" class="form-label">Fecha Fin</label>
+                                        <input class="form-control" type="date" value="@fechaActual" id="FechaFinT" required />
+                                    </div>
+                                    <div class="col mb-0">
+                                        <label for="HoraIFinT" class="form-label">Hora Fin</label>
+                                        <input class="form-control" type="time" id="HoraIFinT" required />
+                                    </div>
+                                </div>
+
                                 <div class="row" style="margin-top:20px;">
                                     <div class="col mb-6">
                                         <label asp-for="motivos" for="sltMotivo" class="form-label">Motivo(s)</label>
-                                        <select asp-for="motivos" id="sltMotivo"  class="form-select" multiple aria-label="Motivo(s)">
-
+                                        <select asp-for="motivos" id="sltMotivo" class="form-select" multiple aria-label="Motivo(s)">
                                         </select>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -86,28 +149,32 @@
                                         <label asp-for="observacion" class="form-label" for="basic-icon-default-message">Observación</label>
                                         <div class="input-group input-group-merge">
                                             <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-comment"></i></span>
-                                            <textarea asp-for="observacion"  id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
+                                            <textarea asp-for="observacion" id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button class="btn btn-primary">Guardar</button>
-                            </div>
-                        </form>
-                    </div>                    
-                </div>                
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
     </div>
 </div>
+<!-- FIN DEL MODAL-->
 
-
-@section Scripts{
-    
+@section Scripts{    
     <script>
+        var esTurnoCru = false;
         const urlListasItemTabla = '@Url.Action("listarItemTablas", "Tablas")?id=4'
+        
 
         $(document).ready(function () {
             $("#txtbuscar").autocomplete({
@@ -122,8 +189,52 @@
                 },
                 minLength: 1,
                 select: function (event, ui) {
-                    console.log(ui.item)
-                    $("#txtPersonalId").val(ui.item.value)
+                    const nombreCompleto = ui.item.label
+                    const areaPuesto = ((ui.item.desc_area ? ui.item.desc_area : "sin área") + " / " + (ui.item.desc_puesto ? ui.item.desc_puesto : "sin puesto") )
+                    const idPersonal = ui.item.value
+                    let turnoCrusado = ""
+                    let textoHorario = ""
+                    $("#txtPersonalId").val(idPersonal)
+                    
+                    $.ajax({
+                        url: "@Url.Action("ViewHorarioPersonal", "TiempoExtra")?id_personal=" + idPersonal,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data) {
+                                data.forEach(d => {
+                                    if (d.turnoCrusado == true) {
+                                        esTurnoCru = true
+                                    }
+
+                                    turnoCrusado = (d.turnoCrusado == true ? " <TC> " : "")
+                                    textoHorario += d.dia_label + ": " + (d.hora_ingreso).toString().slice(0, 5) + " - " + (d.hora_salida).toString().slice(0, 5) + turnoCrusado + " <i class='text-black-50'>(Refr: " + (d.hora_refr_inicio).toString().slice(0, 5) + "-" + (d.hora_refr_fin).toString().slice(0, 5) + ")</i><br/>"
+                                });
+                                document.getElementById("dataSelected").querySelector("tbody").innerHTML = "";
+                            }
+                            
+                            if (esTurnoCru == true) {
+                                document.getElementById("FechaFinT").setAttribute("disabled", "false")
+                            } else {
+                                document.getElementById("FechaFinT").setAttribute("disabled", "true")
+                            }
+                            
+                      
+                            $("#dataSelected tbody").append(
+                                $("<tr>").append(
+                                    $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Personal</small>"),
+                                    $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'><b>" + nombreCompleto + "</b></p>")
+                                ),
+                                $("<tr>").append(
+                                    $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Área/Puesto</small>"),
+                                    $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'>" + areaPuesto + "</p>")
+                                ),
+                                $("<tr>").append(
+                                    $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Horario</small>"),
+                                    $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'>" + textoHorario + "</p>")
+                                )
+                            )
+                        }
+                    })
                     console.log(ui.item)
                     event.preventDefault();
                     $(this).val("");
@@ -144,14 +255,119 @@
                         'Content-Type' : 'application/json'
                     }                
                 })
-
                 const json = await respuesta.json();
                 console.log(json);
                 const opciones = json.map(item => `<option value=${item.idSubtabla}>${item.descripcion}</option>`);
                 $("#sltMotivo").html(opciones);
             })
 
+            $("#dataTable").ready(async function () {
+                cargarDataEventos();
+            })
+
         })
 
     </script>    
+    <script>
+        $("#dtFechaIni").change(async function () {
+            cargarDataEventos();
+        })
+
+        $("#dtFechaFin").change(async function () {
+            cargarDataEventos();
+        })
+
+        $("#FechaInicioT").change(async function () {
+            const valorSelect = $(this).val();
+            const horaI = $("#HoraInicioT").val();
+            changeTiempo(valorSelect, horaI, "", "", "I");
+            console.log(esTurnoCru)
+            if (esTurnoCru == false) {
+                $("#FechaFinT").val(valorSelect)
+            }
+        })
+        $("#HoraInicioT").change(async function () {
+            const valorSelect = $(this).val();
+            const fechaI = $("#FechaInicioT").val();
+            changeTiempo(fechaI, valorSelect, "", "", "I");
+        })
+
+        $("#FechaFinT").change(async function () {
+            const valorSelect = $(this).val();
+            const horaF = $("#HoraFinT").val();
+            changeTiempo("", "", valorSelect, horaF, "F");
+        })
+        $("#HoraIFinT").change(async function () {
+            const valorSelect = $(this).val();
+            const fechaF = $("#FechaFinT").val();
+            changeTiempo("", "", fechaF, valorSelect, "F");
+        })
+
+        function changeTiempo(diaI, horaI, diaF, horaF, origin ) {
+            let fi = "";
+            let ff = "";
+            if (origin == "I") {
+                if (diaI && horaI) {
+                    fi = diaI.toString() + " " + horaI;
+                } else {
+                    fi = "";
+                }
+                $("#fechaInicio").val(fi);
+            }            
+            if (origin == "F") {
+                if (diaF && horaF) {
+                    ff = diaF.toString() + " " + horaF;
+                } else {
+                    ff = "";
+                }
+                $("#fechaFin").val(ff);
+            }
+        }
+
+        function cargarDataEventos() {
+            const fechaInicio = $("#dtFechaIni").val();
+            const fechaFin = $("#dtFechaFin").val();
+            const personal = -1;
+            const opcionesFormato = {
+                weekday: 'long', // 'long', 'short', 'narrow'
+                year: 'numeric',
+                month: '2-digit',   // 'numeric', '2-digit', 'long', 'short', 'narrow'
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false    // Formato de 24 horas
+            };
+            const urlListasItemOverTime = "@Url.Action("ListarHorasExtras", "TiempoExtra")?fechaini=" + fechaInicio + "&fechafin=" + fechaFin + "&personal=" + personal;
+            console.log(urlListasItemOverTime);
+
+            $.ajax({
+                url: urlListasItemOverTime,
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("dataTable").querySelector("tbody").innerHTML = "";
+                    if (data) {
+                        console.log(data)
+                        data.forEach(d => {
+                            const fIniFormato = (new Date(d.dia_hora_inicio)).toLocaleString('es-PE', opcionesFormato);
+
+
+                            $("#dataTable tbody").append(
+                                $("<tr>").append(
+                                    $("<td style='min-width:200px;'>").text(d.nombre_completo),
+                                    $("<td style='min-width:100px;'>").text(d.horario_dia),
+                                    $("<td>").text((new Date(d.dia_hora_inicio)).toLocaleString('es-PE', opcionesFormato)),
+                                    $("<td>").text((new Date(d.dia_hora_fin)).toLocaleString('es-PE', opcionesFormato)),
+                                    $("<td style='text-align:center;'>").text(d.horas_extra),
+                                    $("<td style='text-align:center;'>").text(d.minutos_extra),
+                                    $("<td style='min-width:250px'>").text(d.motivos),
+                                    $("<td style='min-width:250px'>").text(d.observacion),
+                                    $("<td>").text((new Date(d.date_add)).toLocaleString('es-PE', opcionesFormato))
+                                )
+                            )
+                        })
+                    }
+                }
+            })
+        }
+    </script>
 }

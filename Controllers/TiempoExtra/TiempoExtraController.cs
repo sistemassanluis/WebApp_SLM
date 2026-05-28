@@ -54,7 +54,24 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             return RedirectToAction("TiempoExtra");
         }
 
-       
+        [HttpGet]
+        public async Task<ActionResult> ListarHorasExtras(string fechaini, string fechafin, long personal)
+        {
+            DateTime fI = DateTime.Parse(fechaini);
+            DateTime fF = DateTime.Parse(fechafin);
+            var lista = await repo.ListarHorasExtras(fI, fF, personal);
+            return Ok(lista);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ViewHorarioPersonal(long id_personal)
+        {
+            var lista = await repo.ViewHorarioPersonal(id_personal);
+            return Ok(lista);
+        }
+
+
+
 
     }
 }

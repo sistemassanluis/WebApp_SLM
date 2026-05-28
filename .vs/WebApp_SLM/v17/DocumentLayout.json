@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\fuentes\\WebApp_SLM\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|d:\\fuentes\\webapp_slm\\models\\horasextras\\horariopersonal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:models\\horasextras\\horariopersonal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|d:\\fuentes\\webapp_slm\\views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:views\\tiempoextra\\tiempoextra.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|d:\\fuentes\\webapp_slm\\services\\tiempoextrarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:services\\tiempoextrarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|d:\\fuentes\\webapp_slm\\controllers\\tiempoextra\\tiempoextracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:controllers\\tiempoextra\\tiempoextracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|d:\\fuentes\\webapp_slm\\models\\horasextras\\listatiempoextra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE900F5C-9401-4278-9BEB-42DBC6D207E3}|WebApp_SLM.csproj|solutionrelative:models\\horasextras\\listatiempoextra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 2565,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TiempoExtra.cshtml",
-              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "RelativeDocumentMoniker": "Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "RelativeToolTip": "Views\\TiempoExtra\\TiempoExtra.cshtml",
-              "ViewState": "AQIAAAkAAAAAAAAAAADwvwAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-22T19:22:27.824Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -44,31 +31,50 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
+            }
+          ]
+        },
+        {
+          "DockedWidth": 389,
+          "SelectedChildIndex": 2,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "TiempoExtraController.cs",
-              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Controllers\\TiempoExtra\\TiempoExtraController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TiempoExtra\\TiempoExtraController.cs",
-              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Controllers\\TiempoExtra\\TiempoExtraController.cs",
-              "RelativeToolTip": "Controllers\\TiempoExtra\\TiempoExtraController.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAA5wDcAAAAAAAAA",
+              "Title": "ListaTiempoExtra.cs",
+              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Models\\HorasExtras\\ListaTiempoExtra.cs",
+              "RelativeDocumentMoniker": "Models\\HorasExtras\\ListaTiempoExtra.cs",
+              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Models\\HorasExtras\\ListaTiempoExtra.cs",
+              "RelativeToolTip": "Models\\HorasExtras\\ListaTiempoExtra.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAADwvwsAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T14:53:25.689Z",
+              "WhenOpened": "2026-05-28T19:28:27.268Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TiempoExtraRepository.cs",
-              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Services\\TiempoExtraRepository.cs",
-              "RelativeDocumentMoniker": "Services\\TiempoExtraRepository.cs",
-              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Services\\TiempoExtraRepository.cs",
-              "RelativeToolTip": "Services\\TiempoExtraRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEAAAAAAAAAA",
+              "Title": "TiempoExtra.cshtml",
+              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
+              "RelativeDocumentMoniker": "Views\\TiempoExtra\\TiempoExtra.cshtml",
+              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Views\\TiempoExtra\\TiempoExtra.cshtml",
+              "RelativeToolTip": "Views\\TiempoExtra\\TiempoExtra.cshtml",
+              "ViewState": "AQIAAO0AAAAAAAAAAAAAAGMBAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-26T14:01:29.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HorarioPersonal.cs",
+              "DocumentMoniker": "D:\\fuentes\\WebApp_SLM\\Models\\HorasExtras\\HorarioPersonal.cs",
+              "RelativeDocumentMoniker": "Models\\HorasExtras\\HorarioPersonal.cs",
+              "ToolTip": "D:\\fuentes\\WebApp_SLM\\Models\\HorasExtras\\HorarioPersonal.cs",
+              "RelativeToolTip": "Models\\HorasExtras\\HorarioPersonal.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAADwvw0AAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T14:52:09.782Z",
+              "WhenOpened": "2026-05-26T13:42:57.621Z",
               "EditorCaption": ""
             }
           ]
