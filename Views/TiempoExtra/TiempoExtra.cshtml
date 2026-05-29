@@ -1,15 +1,12 @@
 ﻿@using WebApp_SLM.Models.HorasExtras
 
-@model OverTime
+@model ViewTiempoExtra
 
 @{
-
     ViewData["Title"] = "Administrar Horas Extras";
-
     string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
     string fechaHoraActual = DateTime.Now.ToString("yyyy-MM-dd HH:MM");
 }
-
 
 <style>
     .ui-autocomplete {
@@ -54,6 +51,7 @@
         <table class="table table-hover" id="dataTable">
             <thead>
                 <tr>
+                    <th>Actions</th>
                     <th>PERSONAL</th>
                     <th>HORARIO</th>
                     <th>H.EXTRA INICIO</th>
@@ -63,11 +61,24 @@
                     <th>MOTIVO(S)</th>
                     <th>OBSERVACION</th>
                     <th>FECHA INGRESO</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody class="table-border-bottom-0">
-                      
+                @foreach (ListaTiempoExtra d in Model.myListaTiempoExtras)
+                {
+                <tr>
+                    <td style='min-width:100px;'>editar</td>
+                    <td style='min-width:200px;'>@d.nombre_completo </td>
+                    <td style='min-width:100px;'>@d.horario_dia </td>
+                    <td>@d.dia_hora_inicio</td>
+                    <td>@d.dia_hora_fin</td>
+                    <td style="text-align:center;">@d.horas_extra</td>
+                    <td style="text-align:center;">@d.minutos_extra</td>
+                    <td style="min-width:250px;">@d.motivos</td>
+                    <td style="min-width:250px;">@d.observacion</td>
+                    <td >@d.date_add</td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -93,9 +104,9 @@
                                     </div>
                                 </div>
                                 <div class="col mb-6">
-                                    <input type="hidden" asp-for="personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
-                                    <input type="hidden" asp-for="dia_hora_inicio" class="form-control" id="fechaInicio" required />
-                                    <input type="hidden" asp-for="dia_hora_fin" class="form-control" id="fechaFin" required />
+                                    <input type="hidden" asp-for="myOverTime.personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
+                                    <input type="hidden" asp-for="myOverTime.dia_hora_inicio" class="form-control" id="fechaInicio" required />
+                                    <input type="hidden" asp-for="myOverTime.dia_hora_fin" class="form-control" id="fechaFin" required />
                                 </div>
                                 <div class="col mb-6">
                                     <div class="card">
@@ -138,18 +149,18 @@
 
                                 <div class="row" style="margin-top:20px;">
                                     <div class="col mb-6">
-                                        <label asp-for="motivos" for="sltMotivo" class="form-label">Motivo(s)</label>
-                                        <select asp-for="motivos" id="sltMotivo" class="form-select" multiple aria-label="Motivo(s)">
+                                        <label asp-for="myOverTime.motivos" for="sltMotivo" class="form-label">Motivo(s)</label>
+                                        <select asp-for="myOverTime.motivos" id="sltMotivo" class="form-select" multiple aria-label="Motivo(s)">
                                         </select>
 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col mb-6">
-                                        <label asp-for="observacion" class="form-label" for="basic-icon-default-message">Observación</label>
+                                        <label asp-for="myOverTime.observacion" class="form-label" for="basic-icon-default-message">Observación</label>
                                         <div class="input-group input-group-merge">
                                             <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-comment"></i></span>
-                                            <textarea asp-for="observacion" id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
+                                            <textarea asp-for="myOverTime.observacion" id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +273,7 @@
             })
 
             $("#dataTable").ready(async function () {
-                cargarDataEventos();
+                //cargarDataEventos();
             })
 
         })
@@ -353,6 +364,7 @@
 
                             $("#dataTable tbody").append(
                                 $("<tr>").append(
+                                    $("<td style='min-width:200px;'>").text(d.nombre_completo),
                                     $("<td style='min-width:200px;'>").text(d.nombre_completo),
                                     $("<td style='min-width:100px;'>").text(d.horario_dia),
                                     $("<td>").text((new Date(d.dia_hora_inicio)).toLocaleString('es-PE', opcionesFormato)),

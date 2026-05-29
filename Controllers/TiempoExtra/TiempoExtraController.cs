@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.JSInterop;
-using System.Collections;
-using System.Reflection.Metadata;
 using WebApp_SLM.Models;
 using WebApp_SLM.Models.HorasExtras;
 using WebApp_SLM.Services;
@@ -19,16 +16,26 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             this.repo = rep;  
             this.repoT = repT;
         }
-        public ActionResult TiempoExtra()
+        public async Task<ActionResult> TiempoExtra()
         {
-            return View();
+            OverTime overTime = new OverTime();
+
+            DateTime fI = DateTime.Parse("2026-01-01 00:00:00");
+            DateTime fF = DateTime.Parse("2026-12-01 00:00:00");
+            IEnumerable<ListaTiempoExtra> listaTiempoExtras= await repo.ListarHorasExtras(fI, fF, -1);
+
+            ViewTiempoExtra vte = new ViewTiempoExtra()
+            {
+                myOverTime = overTime,
+                myListaTiempoExtras = listaTiempoExtras
+            };
+            return View(vte);
         }
-
-
 
         [HttpGet]
         public JsonResult searchPersonal(string texto)
         {
+            
             List<FindPersonal> lista = new List<FindPersonal>();
             lista = repo.SeachPersonal(texto);
             return Json( lista); 
