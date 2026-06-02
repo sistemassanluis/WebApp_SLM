@@ -151,3 +151,11 @@ D:\fuentes\WebApp_SLM\obj\Debug\net8.0\refint\WebApp_SLM.dll
 D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.pdb
 D:\fuentes\WebApp_SLM\obj\Debug\net8.0\WebApp_SLM.genruntimeconfig.cache
 D:\fuentes\WebApp_SLM\obj\Debug\net8.0\ref\WebApp_SLM.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\ClosedXML.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\RBush.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\System.IO.Packaging.dll

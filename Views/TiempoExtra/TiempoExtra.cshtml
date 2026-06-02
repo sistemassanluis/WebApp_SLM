@@ -4,8 +4,8 @@
 
 @{
     ViewData["Title"] = "Administrar Horas Extras";
-    string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
-    string fechaHoraActual = DateTime.Now.ToString("yyyy-MM-dd HH:MM");
+
+    //string fechaHoraActual = DateTime.Now.ToString("yyyy-MM-dd HH:MM");
 }
 
 <style>
@@ -24,21 +24,43 @@
             <h5 class="card-header">Lista de eventos</h5>
             
             <div class="card-body">
-                               
-                <div class="row g-6" style="margin-top:5px;margin-bottom:16px;">
-                    <div class="col-md-6">
-                        <label for="dtFechaIni" class="form-label">Fecha Inicio:</label>
-                        <input class="form-control" type="date" value="@fechaActual" id="dtFechaIni" />
+                <form asp-controller="TiempoExtra" asp-action="Index">
+                    <div class="row g-6" style="margin-top:5px;margin-bottom:16px;">
+                        <div class="col-md-6">
+                            <label asp-for="myFilterControl.fechaInicioRango" for="dtFechaIni" class="form-label">Fecha Inicio:</label>
+                            <input asp-for="myFilterControl.fechaInicioRango" class="form-control" name="fechaini" type="date" id="dtFechaIni" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="myFilterControl.fechaFinRango" for="dtFechaFin" class="form-label">Fecha Fin:</label>
+                            <input asp-for="myFilterControl.fechaFinRango" class="form-control" name="fechafin" type="date" id="dtFechaFin" />
+                        </div>
+                        <div class="col mb-6">
+                            <label for="txtBuscarPersonal" class="form-label">Personal</label>
+                            <div class="input-group mb-3">
+                                <span  class="input-group-text" id="basic-addon1"><i class="bi bi-search" ></i></span>
+                                <input type="text" class="form-control" id="txtBuscarPersonal">
+                            </div>
+                        </div>
+                        <div class="col mb-6">
+                            <input type="hidden" asp-for="myFilterControl.idPersonalFind" id="personalFind" name="personalFind" class="form-control">
+                            <input type="hidden" asp-for="myFilterControl.nombreFind" id="nombreFind" name="nombreFind" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" >Filtar</button>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="dtFechaFin" class="form-label">Fecha Fin:</label>
-                        <input class="form-control" type="date" value="@fechaActual" id="dtFechaFin" />
-                    </div>
-                </div>
+                </form>                
                 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal">
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal" asp-action="estadoNew">
                     Nuevo evento
                 </button>
+                <a asp-action="ExportarListaOverTimeFiltro" asp-route-fechaini="@Model.myFilterControl.fechaInicioRango"
+                   asp-route-fechafin="@Model.myFilterControl.fechaFinRango"
+                   asp-route-personalFind="-1" class="btn btn-success"> Exportar A Excel</a>
+
+                
                 
             </div>
         </div>
@@ -67,7 +89,13 @@
                 @foreach (ListaTiempoExtra d in Model.myListaTiempoExtras)
                 {
                 <tr>
-                    <td style='min-width:100px;'>editar</td>
+                    <td style='min-width:100px;'>
+                            <div class="row-lg-6">
+                                <a class="btn btn-danger btn-sm" asp-action="estadoDelete"><span class="bi-trash"></span></a>
+                                <a class="btn btn-primary btn-sm" asp-action="estadoEdit" data-bs-toggle="modal" data-bs-target="#backDropModal"><span class="bi-pencil-square"></span></a>
+                        </div>
+                        
+                    </td>
                     <td style='min-width:200px;'>@d.nombre_completo </td>
                     <td style='min-width:100px;'>@d.horario_dia </td>
                     <td>@d.dia_hora_inicio</td>
@@ -86,7 +114,7 @@
 <!-- Modal -->
 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" asp-action="CrearHoraExtra">
+        <form class="modal-content" asp-action="CrudHoraExtra">
             <div class="modal-header">
                 <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -128,7 +156,7 @@
                                 <div class="row g-6">
                                     <div class="col mb-0">
                                         <label for="fechaInicioT" class="form-label" >Fecha Inicio</label>
-                                        <input class="form-control" type="date" value="@fechaActual" id="FechaInicioT" required />
+                                        <input class="form-control" type="date" id="FechaInicioT" required />
                                     </div>
                                     <div class="col mb-0">
                                         <label for="HoraInicioT" class="form-label">Hora inicio</label>
@@ -139,7 +167,7 @@
                                 <div class="row g-6" style="margin-top:10px;">
                                     <div class="col mb-0">
                                         <label for="FechaFinT" class="form-label">Fecha Fin</label>
-                                        <input class="form-control" type="date" value="@fechaActual" id="FechaFinT" required />
+                                        <input class="form-control" type="date" id="FechaFinT" required />
                                     </div>
                                     <div class="col mb-0">
                                         <label for="HoraIFinT" class="form-label">Hora Fin</label>
@@ -173,7 +201,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cerrar</button>
                 <button class="btn btn-primary">Guardar</button>
             </div>
         </form>
@@ -188,6 +216,36 @@
         
 
         $(document).ready(function () {
+
+            console.log($("#personalFind").val());
+
+            $("#txtBuscarPersonal").val($("#nombreFind").val());
+
+            $("#txtBuscarPersonal").autocomplete({
+                source: function(request, response){
+                    $.ajax({
+                        url: "@Url.Action("searchPersonal", "TiempoExtra")?texto=" + request.term,
+                        dataType: "json",
+                        success: function(data){
+                            response(data);
+                        }
+                    })
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    
+                    $("#personalFind").val(ui.item.value);
+                    $("#nombreFind").val(ui.item.label);
+
+                    event.preventDefault();
+                    $(this).val(ui.item.label);
+                }
+
+            })
+
+
+
+
             $("#txtbuscar").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -246,7 +304,6 @@
                             )
                         }
                     })
-                    console.log(ui.item)
                     event.preventDefault();
                     $(this).val("");
                 },
@@ -281,11 +338,11 @@
     </script>    
     <script>
         $("#dtFechaIni").change(async function () {
-            cargarDataEventos();
+            //cargarDataEventos();
         })
 
         $("#dtFechaFin").change(async function () {
-            cargarDataEventos();
+            //cargarDataEventos();
         })
 
         $("#FechaInicioT").change(async function () {
@@ -334,7 +391,7 @@
                 $("#fechaFin").val(ff);
             }
         }
-
+        //no se usa
         function cargarDataEventos() {
             const fechaInicio = $("#dtFechaIni").val();
             const fechaFin = $("#dtFechaFin").val();

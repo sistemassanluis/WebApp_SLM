@@ -4,6 +4,9 @@
     {
         public OverTime myOverTime { get; set; }
         public IEnumerable<ListaTiempoExtra> myListaTiempoExtras { get; set; }
+        public FilterControl myFilterControl { get; set; }
+
+        public string estado { get; set; }
 
     }
 }
