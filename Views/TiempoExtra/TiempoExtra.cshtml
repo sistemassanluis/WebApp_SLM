@@ -91,8 +91,8 @@
                 <tr>
                     <td style='min-width:100px;'>
                             <div class="row-lg-6">
-                                <a class="btn btn-danger btn-sm" asp-action="estadoDelete"><span class="bi-trash"></span></a>
-                                <a class="btn btn-primary btn-sm" asp-action="estadoEdit" data-bs-toggle="modal" data-bs-target="#backDropModal"><span class="bi-pencil-square"></span></a>
+                                <a class="btn btn-danger btn-sm" asp-action="CrudHoraExtraDelete" asp-route-idOvertime="@d.id"><span class="bi-trash"></span></a>
+                                <a class="btn btn-primary btn-sm" asp-action="CrudHoraExtra" data-bs-toggle="modal" data-bs-target="#backDropModal"><span class="bi-pencil-square"></span></a>
                         </div>
                         
                     </td>
@@ -111,6 +111,7 @@
         </table>
     </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -143,9 +144,7 @@
                                             <tbody>
                                             </tbody>
                                         </table>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -232,19 +231,14 @@
                     })
                 },
                 minLength: 1,
-                select: function (event, ui) {
-                    
+                select: function (event, ui) {                    
                     $("#personalFind").val(ui.item.value);
                     $("#nombreFind").val(ui.item.label);
-
                     event.preventDefault();
                     $(this).val(ui.item.label);
                 }
 
             })
-
-
-
 
             $("#txtbuscar").autocomplete({
                 source: function (request, response) {

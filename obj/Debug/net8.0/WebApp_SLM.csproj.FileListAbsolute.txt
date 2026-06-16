@@ -159,3 +159,11 @@ C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\ExcelNumberFormat.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\RBush.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\SixLabors.Fonts.dll
 C:\aplica\sanluis\WebApp_SLM\bin\Debug\net8.0\System.IO.Packaging.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\ClosedXML.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\ClosedXML.Parser.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\ExcelNumberFormat.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\RBush.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\SixLabors.Fonts.dll
+D:\fuentes\WebApp_SLM\bin\Debug\net8.0\System.IO.Packaging.dll

@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Collections.Immutable;
 using System.Data;
 using WebApp_SLM.Models;
@@ -106,9 +107,26 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             estadoCrud = "NEW";
         }
 
-        public void estadoDelete()
+        [HttpGet]
+        public async Task<ActionResult> CrudHoraExtraDelete(long idOvertime)
         {
+            
             estadoCrud = "DELETE";
+            List<MiListaType> lista = new List<MiListaType>();
+            OverTime itemOvertime = new OverTime();
+            itemOvertime.id = idOvertime;
+            itemOvertime.date_add = DateTime.Now;
+            itemOvertime.date_modify = DateTime.Now;
+            itemOvertime.dia_hora_fin = DateTime.Now;
+            itemOvertime.dia_hora_inicio = DateTime.Now;
+
+            if (!ModelState.IsValid)
+            {
+                return View(itemOvertime);
+            }
+            await repo.Crud_HoraExtra(itemOvertime, lista, "D");
+            estadoCrud = "NEW";
+            return RedirectToAction("TiempoExtra");
         }
 
         [HttpPost]

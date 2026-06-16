@@ -25,7 +25,7 @@ namespace WebApp_SLM.Services
         public List<FindPersonal> SeachPersonal(string texto)
         {
             List<FindPersonal> lista = new List<FindPersonal>();
-
+            string filtro =  texto != null ? texto : "";
             using (var conn = new SqlConnection(connSqlRRHH))
             {
                 conn.Open();
