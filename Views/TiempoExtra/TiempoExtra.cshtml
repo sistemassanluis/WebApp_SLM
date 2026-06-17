@@ -91,7 +91,7 @@
                 <tr>
                     <td style='min-width:100px;'>
                             <div class="row-lg-6">
-                                <a class="btn btn-danger btn-sm" asp-action="CrudHoraExtraDelete" asp-route-idOvertime="@d.id"><span class="bi-trash"></span></a>
+                                <a class="btn btn-danger btn-sm" asp-action="CrudHoraExtraDelete" asp-route-idOvertime="@d.id" id="btnDelete" onclick="questionDelete(event)"><span class="bi-trash"></span></a>
                                 <a class="btn btn-primary btn-sm" asp-action="CrudHoraExtra" data-bs-toggle="modal" data-bs-target="#backDropModal"><span class="bi-pencil-square"></span></a>
                         </div>
                         
@@ -384,6 +384,24 @@
                 }
                 $("#fechaFin").val(ff);
             }
+        }
+
+        function questionDelete(e){
+            e.preventDefault();
+            swal.fire({
+                title: "¿Quiere eliminar el registro?",
+                icon: "question",
+                showCancelButton: true ,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((resultado) =>{
+                if(resultado.isConfirmed){
+                    const formulario = document.getElementById("btnDelete");
+                    console.log(formulario);
+                    window.location.href = formulario.href;
+  
+                }
+            })
         }
         //no se usa
         function cargarDataEventos() {
