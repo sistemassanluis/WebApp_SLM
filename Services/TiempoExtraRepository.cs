@@ -4,11 +4,14 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using WebApp_SLM.Models;
 using System.Data;
+using System.Collections.Immutable;
+using System.Collections.Generic;
 
 namespace WebApp_SLM.Services
 {
     public interface ITiempoExtraRepository
     {
+        OverTimeDet SeachOverTime(long id);
         Task Crud_HoraExtra(OverTime overtime, List<MiListaType> motivos, string tipoTrs);
         Task <IEnumerable<ListaTiempoExtra>> ListarHorasExtras(DateTime fechaini, DateTime fechafin, long personal);
         List<FindPersonal> SeachPersonal(string texto);
@@ -17,11 +20,87 @@ namespace WebApp_SLM.Services
     public class TiempoExtraRepository : ITiempoExtraRepository
     {
         private readonly string connSqlRRHH;
+   
 
         public TiempoExtraRepository(IConfiguration configuration)
         {
             connSqlRRHH = configuration.GetConnectionString("conecSQlServerRRHH");
         }
+
+        public OverTimeDet  SeachOverTime(long id)
+        {
+            OverTimeDet overTimes = new OverTimeDet(
+                    id: 1,
+                    personal_id: 1,
+                    nombre_completo: "",
+                    horario_dia: "",
+                    dia_hora_inicio: new DateTime(),
+                    dia_hora_fin: new DateTime(),
+                    horas_extra: 0,
+                    minutos_extra: 0,
+                    observacion : "",
+                    date_add : new DateTime(),
+                    id_user_add : 1,
+                    date_modify : new DateTime(),
+                    id_user_modify : 1
+                    );
+
+            using (var conn = new SqlConnection(connSqlRRHH))
+            {
+                OverTimeDet data = conn.QueryFirst<OverTimeDet>(@"SELECT oe.id
+                                                    ,oe.personal_id
+                                                    ,concat (psn.ape_paterno, psn.ape_materno, psn.nombres) as nombre_completo
+                                                    ,oe.dia_hora_inicio
+                                                    ,oe.dia_hora_fin
+                                                    ,dbo.f_calculatiempoTrancurrido( oe.dia_hora_inicio, oe.dia_hora_fin, 'H') as horas_extra
+                                                    ,dbo.f_calculatiempoTrancurrido( oe.dia_hora_inicio, oe.dia_hora_fin, 'M') as minutos_extra
+                                                    ,observacion
+                                                    ,oe.date_add
+                                                    ,oe.id_user_add
+                                                    ,oe.date_modify
+                                                    ,oe.id_user_modify
+                                                    ,concat(SUBSTRING(CONVERT(VARCHAR,hp.hora_ingreso, 108), 1, 5), SUBSTRING(CONVERT(VARCHAR,hp.hora_salida, 108), 1, 5)) as horario_dia 
+                                                FROM ast_overtime_event oe inner join gn_personal p on (oe.personal_id = p.id)inner join gn_persona psn on (p.persona_id = psn.id) 
+                                                                             left join ast_horario_personal hp on (p.id = hp.personal_id and hp.dia = DATEPART(dw, oe.dia_hora_inicio)) 
+                                                WHERE oe.id = @id 
+                                                order by oe.dia_hora_inicio", new { id });
+
+                overTimes.id = data.id;
+                overTimes.personal_id = data.personal_id;                
+                overTimes.nombre_completo = data.nombre_completo;
+                overTimes.dia_hora_inicio = data.dia_hora_inicio;
+                overTimes.dia_hora_fin = data.dia_hora_fin;
+                overTimes.horario_dia = data.horario_dia;
+                overTimes.minutos_extra = data.minutos_extra;
+                overTimes.observacion = data.observacion;
+                overTimes.date_add = data.date_add;
+                overTimes.id_user_add = data.id_user_add;
+                overTimes.date_modify = data.date_modify;
+                overTimes.id_user_modify = data.id_user_modify;
+
+
+                IEnumerable<OverTimeReasonDet> dataMotivos = conn.Query<OverTimeReasonDet>(@"select oer.id,
+	                                                                            oer.overtime_id, 
+	                                                                            oer.motivo_id,
+	                                                                            st.descripcion as motivo_descripcion, 
+	                                                                            oer.date_add,
+	                                                                            oer.id_user_add,
+	                                                                            oer.date_modify,
+	                                                                            oer.id_user_modify
+                                                                            from ast_overtime_event_reason oer inner join gn_subtablas st on (oer.motivo_id = st.id)
+                                                                            where oer.overtime_id = @id", new { id });
+                foreach (var item in dataMotivos)
+                {
+                    overTimes.motivos.Add(item);
+                }
+
+                return overTimes;
+                
+            } ;
+
+            return overTimes;
+        }
+
         public List<FindPersonal> SeachPersonal(string texto)
         {
             List<FindPersonal> lista = new List<FindPersonal>();

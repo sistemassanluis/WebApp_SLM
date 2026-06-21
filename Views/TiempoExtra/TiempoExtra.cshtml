@@ -92,7 +92,7 @@
                     <td style='min-width:100px;'>
                             <div class="row-lg-6">
                                 <a class="btn btn-danger btn-sm" asp-action="CrudHoraExtraDelete" asp-route-idOvertime="@d.id" id="btnDelete" onclick="questionDelete(event)"><span class="bi-trash"></span></a>
-                                <a class="btn btn-primary btn-sm" asp-action="CrudHoraExtra" data-bs-toggle="modal" data-bs-target="#backDropModal"><span class="bi-pencil-square"></span></a>
+                                <a class="btn btn-primary btn-sm" onclick="EditOverTime(Event)"><span class="bi-pencil-square"></span></a>
                         </div>
                         
                     </td>
@@ -211,6 +211,7 @@
 @section Scripts{    
     <script>
         var esTurnoCru = false;
+        var StatusCrud: "EDIT" | "DELETE" | "NEW" = "NEW";
         const urlListasItemTabla = '@Url.Action("listarItemTablas", "Tablas")?id=4'
         
 
@@ -387,6 +388,7 @@
         }
 
         function questionDelete(e){
+            StatusCrud = "DELETE";
             e.preventDefault();
             swal.fire({
                 title: "¿Quiere eliminar el registro?",
@@ -399,9 +401,27 @@
                     const formulario = document.getElementById("btnDelete");
                     console.log(formulario);
                     window.location.href = formulario.href;
-  
+                    StatusCrud = "NEW";
                 }
             })
+        }
+
+
+        function EditOverTime(e) {
+            StatusCrud = "EDIT";
+            console.log(e)
+
+            const urlSearchOverTime = "@Url.Action("SeachOverTime", "TiempoExtra")?id=7";
+            $.ajax({
+                url: urlSearchOverTime,
+                dataType:"Json"
+                success: function (data) {
+                    response(data);
+                }
+            }
+            )
+            $('#backDropModal').modal('show');
+
         }
         //no se usa
         function cargarDataEventos() {
@@ -418,7 +438,7 @@
                 hour12: false    // Formato de 24 horas
             };
             const urlListasItemOverTime = "@Url.Action("ListarHorasExtras", "TiempoExtra")?fechaini=" + fechaInicio + "&fechafin=" + fechaFin + "&personal=" + personal;
-            console.log(urlListasItemOverTime);
+
 
             $.ajax({
                 url: urlListasItemOverTime,

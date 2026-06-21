@@ -37,6 +37,7 @@ namespace WebApp_SLM.Controllers.TiempoExtra
 
 
             IEnumerable<ListaTiempoExtra> listaTiempoExtras= await repo.ListarHorasExtras(fI, fF, idFilter);
+            
 
             ViewTiempoExtra vte = new ViewTiempoExtra()
             {
@@ -97,6 +98,13 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             return Json( lista); 
         }
 
+        public JsonResult searchOverTime(long id)
+        {
+            List<OverTime> lista = new List<OverTime>();
+
+            return Json( lista);
+        }
+
         public void estadoEdit()
         {
             estadoCrud = "EDIT";
@@ -127,6 +135,12 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             await repo.Crud_HoraExtra(itemOvertime, lista, "D");
             estadoCrud = "NEW";
             return RedirectToAction("TiempoExtra");
+        }
+
+        public void CrudHoraExtraEdit()
+        {
+            estadoCrud = "EDIT";
+
         }
 
         [HttpPost]
@@ -169,6 +183,13 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         {
             var lista = await repo.ViewHorarioPersonal(id_personal);
             return Ok(lista);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SeachOverTime(long id)
+        {
+            OverTimeDet overtime = repo.SeachOverTime(id);
+            return Ok(overtime);
         }
 
         public IActionResult ExcelReporte()
