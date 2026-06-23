@@ -30,9 +30,11 @@ namespace WebApp_SLM.Services
         public OverTimeDet  SeachOverTime(long id)
         {
             OverTimeDet overTimes = new OverTimeDet(
-                    id: 1,
+                    id: -1,
                     personal_id: 1,
                     nombre_completo: "",
+                    area:"",
+                    puesto:"",
                     horario_dia: "",
                     dia_hora_inicio: new DateTime(),
                     dia_hora_fin: new DateTime(),
@@ -49,7 +51,9 @@ namespace WebApp_SLM.Services
             {
                 OverTimeDet data = conn.QueryFirst<OverTimeDet>(@"SELECT oe.id
                                                     ,oe.personal_id
-                                                    ,concat (psn.ape_paterno, psn.ape_materno, psn.nombres) as nombre_completo
+                                                    ,concat (psn.ape_paterno, ' ' , psn.ape_materno,  ' ', psn.nombres) as nombre_completo
+                                                    ,sta.descripcion as area
+	                                                ,stp.descripcion as puesto
                                                     ,oe.dia_hora_inicio
                                                     ,oe.dia_hora_fin
                                                     ,dbo.f_calculatiempoTrancurrido( oe.dia_hora_inicio, oe.dia_hora_fin, 'H') as horas_extra
@@ -59,8 +63,10 @@ namespace WebApp_SLM.Services
                                                     ,oe.id_user_add
                                                     ,oe.date_modify
                                                     ,oe.id_user_modify
-                                                    ,concat(SUBSTRING(CONVERT(VARCHAR,hp.hora_ingreso, 108), 1, 5), SUBSTRING(CONVERT(VARCHAR,hp.hora_salida, 108), 1, 5)) as horario_dia 
+                                                    ,concat(SUBSTRING(CONVERT(VARCHAR,hp.hora_ingreso, 108), 1, 5), ' / ', SUBSTRING(CONVERT(VARCHAR,hp.hora_salida, 108), 1, 5)) as horario_dia 
                                                 FROM ast_overtime_event oe inner join gn_personal p on (oe.personal_id = p.id)inner join gn_persona psn on (p.persona_id = psn.id) 
+                                                                             left join gn_subtablas sta on (p.area = sta.id and sta.tabla_id = 2)
+			                                                                 left join gn_subtablas stp on (p.puesto = stp.id and stp.tabla_id = 3)
                                                                              left join ast_horario_personal hp on (p.id = hp.personal_id and hp.dia = DATEPART(dw, oe.dia_hora_inicio)) 
                                                 WHERE oe.id = @id 
                                                 order by oe.dia_hora_inicio", new { id });
@@ -68,6 +74,8 @@ namespace WebApp_SLM.Services
                 overTimes.id = data.id;
                 overTimes.personal_id = data.personal_id;                
                 overTimes.nombre_completo = data.nombre_completo;
+                overTimes.area = data.area;
+                overTimes.puesto = data.puesto;
                 overTimes.dia_hora_inicio = data.dia_hora_inicio;
                 overTimes.dia_hora_fin = data.dia_hora_fin;
                 overTimes.horario_dia = data.horario_dia;

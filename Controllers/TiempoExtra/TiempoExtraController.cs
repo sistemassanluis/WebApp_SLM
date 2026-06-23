@@ -1,8 +1,5 @@
 ﻿using ClosedXML.Excel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using System.Collections.Immutable;
 using System.Data;
 using WebApp_SLM.Models;
 using WebApp_SLM.Models.HorasExtras;
@@ -15,11 +12,26 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         private readonly ITiempoExtraRepository repo;
         private readonly ITablasRepository repoT;
 
-        DateTime fechaInicio = DateTime.Now.AddDays(-30);//.ToString("yyyy-MM-dd");
-        DateTime fechaActual = DateTime.Now;//.ToString("yyyy-MM-dd");
-        long idFiltro = -1;
-        string nombreLabelFiltro = "";
-        string estadoCrud = "NEW";
+        private DateTime _fechaInicio = DateTime.Now.AddDays(-30);//.ToString("yyyy-MM-dd");
+        private DateTime _fechaActual = DateTime.Now;//.ToString("yyyy-MM-dd");
+        private long _idFiltro = -1;
+        private string _nombreLabelFiltro = "";
+        private string _estadoCrud = "NEW";
+
+        ViewTiempoExtra vte = new ViewTiempoExtra()
+        {
+            myOverTime = null,
+            myListaTiempoExtras = [],
+            myFilterControl = new FilterControl
+            {
+                fechaInicioRango = DateTime.Now,
+                fechaFinRango = DateTime.Now,
+                idPersonalFind = 0,
+                nombreFind = ""
+
+            },
+            estado = "NEW"
+        };
 
         public TiempoExtraController(ITiempoExtraRepository rep, ITablasRepository repT)
         {
@@ -31,62 +43,79 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         {
             
             OverTime overTime = new OverTime();
-            DateTime fI = fechaInicio;
-            DateTime fF = fechaActual;
-            long idFilter = idFiltro;
+            DateTime fI = _fechaInicio;
+            DateTime fF = _fechaActual;
+            long idFilter = _idFiltro;
 
 
             IEnumerable<ListaTiempoExtra> listaTiempoExtras= await repo.ListarHorasExtras(fI, fF, idFilter);
-            
 
-            ViewTiempoExtra vte = new ViewTiempoExtra()
+            vte.myOverTime = overTime;
+            vte.myListaTiempoExtras = listaTiempoExtras;
+            vte.myFilterControl.fechaInicioRango = fI;
+            vte.myFilterControl.fechaFinRango = fF;
+            vte.myFilterControl.idPersonalFind = idFilter;
+            vte.myFilterControl.nombreFind = _nombreLabelFiltro;
+            vte.estado = "NEW";
+
+            return View(vte);           
+            /*ViewTiempoExtra vte = new ViewTiempoExtra()
             {
                 myOverTime = overTime,
                 myListaTiempoExtras = listaTiempoExtras,
                 myFilterControl = new FilterControl
                 {
-                    fechaInicioRango = fI,
+                    _fechaInicioRango = fI,
                     fechaFinRango = fF,
                     idPersonalFind = idFilter,
-                    nombreFind = nombreLabelFiltro
+                    nombreFind = _nombreLabelFiltro
 
                 },
                 estado = "NEW"
-            };
-            return View(vte);
+            };*/
+            
         }
 
-        public async Task<IActionResult> Index(DateTime fechaini, DateTime fechafin, long personalFind, string nombreFind)
+        public async Task<IActionResult> Index(FilterControl filterControl)
         {
-            fechaInicio = fechaini;
-            fechaActual = fechafin;
-            idFiltro = personalFind;
-            nombreLabelFiltro = nombreFind;
+            _fechaInicio = filterControl.fechaInicioRango;
+            _fechaActual = filterControl.fechaFinRango;
+            _idFiltro = filterControl.idPersonalFind;
+            _nombreLabelFiltro = filterControl.nombreFind;
 
-            if (personalFind == 0)
+            if (_idFiltro == 0)
             {
-                idFiltro = -1;
+                _idFiltro = -1;
             } 
 
-            var listaTiempoExtras = await repo.ListarHorasExtras(fechaini, fechafin, idFiltro);
+            var listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
 
-            ViewTiempoExtra vte = new ViewTiempoExtra()
+            vte.myOverTime = new OverTime();
+            vte.myListaTiempoExtras = listaTiempoExtras;
+            vte.myFilterControl.fechaInicioRango = _fechaInicio;
+            vte.myFilterControl.fechaFinRango = _fechaActual;
+            vte.myFilterControl.idPersonalFind = _idFiltro;
+            vte.myFilterControl.nombreFind = _nombreLabelFiltro;
+            vte.estado = "NEW";
 
+            return View("TiempoExtra",vte);
+
+            /*ViewTiempoExtra vte = new ViewTiempoExtra()
 
             {
                 myOverTime = new OverTime(),
                 myListaTiempoExtras = listaTiempoExtras,
                 myFilterControl = new FilterControl
                 {
-                    fechaInicioRango = fechaInicio,
-                    fechaFinRango = fechaActual,
-                    idPersonalFind = idFiltro,
-                    nombreFind=nombreLabelFiltro
+                    _fechaInicioRango = _fechaInicio,
+                    fechaFinRango = _fechaActual,
+                    idPersonalFind = _idFiltro,
+                    nombreFind = _nombreLabelFiltro
                     
                 },
                 estado = "NEW"
-            };
-            return View("TiempoExtra",vte);
+            };*/
+            
         }
 
         [HttpGet]
@@ -107,19 +136,19 @@ namespace WebApp_SLM.Controllers.TiempoExtra
 
         public void estadoEdit()
         {
-            estadoCrud = "EDIT";
+            _estadoCrud = "EDIT";
         }
 
         public void estadoNew()
         {
-            estadoCrud = "NEW";
+            _estadoCrud = "NEW";
         }
 
         [HttpGet]
         public async Task<ActionResult> CrudHoraExtraDelete(long idOvertime)
         {
             
-            estadoCrud = "DELETE";
+            _estadoCrud = "DELETE";
             List<MiListaType> lista = new List<MiListaType>();
             OverTime itemOvertime = new OverTime();
             itemOvertime.id = idOvertime;
@@ -133,13 +162,25 @@ namespace WebApp_SLM.Controllers.TiempoExtra
                 return View(itemOvertime);
             }
             await repo.Crud_HoraExtra(itemOvertime, lista, "D");
-            estadoCrud = "NEW";
-            return RedirectToAction("TiempoExtra");
+            _estadoCrud = "NEW";
+
+            IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
+            //return View("TiempoExtra");
+            vte.myOverTime = new OverTime();
+            vte.myListaTiempoExtras = listaTiempoExtras;
+            vte.myFilterControl.fechaInicioRango = _fechaInicio;
+            vte.myFilterControl.fechaFinRango = _fechaActual;
+            vte.myFilterControl.idPersonalFind = _idFiltro;
+            vte.myFilterControl.nombreFind = _nombreLabelFiltro;
+            vte.estado = "NEW";
+
+            return View("TiempoExtra", vte);
+            //return RedirectToAction("TiempoExtra", vte);
         }
 
         public void CrudHoraExtraEdit()
         {
-            estadoCrud = "EDIT";
+            _estadoCrud = "EDIT";
 
         }
 
@@ -148,6 +189,7 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         {
             overtime.myOverTime.id_user_add = 1;
             overtime.myOverTime.observacion = overtime.myOverTime.observacion.Trim().Length > 0 ? overtime.myOverTime.observacion.Trim() : "Sin Observación";
+            
 
             List<MiListaType> lista = new List<MiListaType>();
             foreach (var item in overtime.myOverTime.motivos)
@@ -160,17 +202,25 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             {
                 return View(overtime);
             }
-            await repo.Crud_HoraExtra(overtime.myOverTime, lista, "I");
-            return RedirectToAction("TiempoExtra");
+            string tipoProceso = (overtime.myOverTime.id == 0 ? "I": "U");
+
+            IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
+            await repo.Crud_HoraExtra(overtime.myOverTime, lista, tipoProceso);
+
+            vte.myOverTime = new OverTime();
+            vte.myListaTiempoExtras = listaTiempoExtras;
+            vte.myFilterControl.fechaInicioRango = _fechaInicio;
+            vte.myFilterControl.fechaFinRango = _fechaActual;
+            vte.myFilterControl.idPersonalFind = _idFiltro;
+            vte.myFilterControl.nombreFind = _nombreLabelFiltro;
+            vte.estado = "NEW";
+
+            return View("TiempoExtra", vte);
         }
-
-        
-
 
         [HttpGet]
         public async Task<ActionResult> ListarHorasExtras(string fechaini, string fechafin, long personal)
         {
-
             DateTime fI = DateTime.Parse(fechaini);
             DateTime fF = DateTime.Parse(fechafin);
 
@@ -198,12 +248,15 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         }
 
         [HttpGet]
-        public async Task<FileResult> ExportarListaOverTimeFiltro(DateTime fechaini, DateTime fechafin, long personalFind)
+        public async Task<FileResult> ExportarListaOverTimeFiltro(string fechaIni, string fechaFin, long idPersonalFind)
         {
             const String formatoFecha = "yyyyMMdd";
+            DateTime fI = DateTime.Parse(fechaIni);
+            DateTime fF = DateTime.Parse(fechaFin);
 
-            var listaTiempoExtras = await repo.ListarHorasExtras(fechaInicio, fechaActual, personalFind);            
-            var nombreArchivo = $"Listado_horas_extras_{fechaInicio.ToString(formatoFecha)} - {fechaActual.ToString(formatoFecha)}.xlsx";
+
+            var listaTiempoExtras = await repo.ListarHorasExtras(fI, fF, idPersonalFind);            
+            var nombreArchivo = $"Listado_horas_extras_{_fechaInicio.ToString(formatoFecha)} - {_fechaActual.ToString(formatoFecha)}.xlsx";
             return GeneraExcel(nombreArchivo, listaTiempoExtras);
         }
 

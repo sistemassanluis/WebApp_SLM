@@ -7,6 +7,8 @@ namespace WebApp_SLM.Models.HorasExtras
         public long id { get; set; }
         public long personal_id { get; set; }
         public string nombre_completo { get; set; }
+        public string area { get; set; }
+        public string puesto { get; set; }
         public string horario_dia { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -23,12 +25,13 @@ namespace WebApp_SLM.Models.HorasExtras
         public DateTime date_modify { get; set; }
         public long id_user_modify { get; set; }
 
-        
-        public OverTimeDet(long id, long personal_id, string nombre_completo, DateTime dia_hora_inicio, DateTime dia_hora_fin, int horas_extra, int minutos_extra, string observacion, DateTime date_add, long id_user_add, DateTime date_modify, long id_user_modify, string horario_dia)
+        public OverTimeDet(long id, long personal_id, string nombre_completo, string area, string puesto, string horario_dia, DateTime dia_hora_inicio, DateTime dia_hora_fin, int horas_extra, int minutos_extra, string observacion, DateTime date_add, long id_user_add, DateTime date_modify, long id_user_modify)
         {
             this.id = id;
             this.personal_id = personal_id;
             this.nombre_completo = nombre_completo;
+            this.area = area;
+            this.puesto = puesto;
             this.horario_dia = horario_dia;
             this.dia_hora_inicio = dia_hora_inicio;
             this.dia_hora_fin = dia_hora_fin;
@@ -39,6 +42,10 @@ namespace WebApp_SLM.Models.HorasExtras
             this.id_user_add = id_user_add;
             this.date_modify = date_modify;
             this.id_user_modify = id_user_modify;
+        }
+
+        public OverTimeDet()
+        {
         }
     }
 }

@@ -4,8 +4,7 @@
 
 @{
     ViewData["Title"] = "Administrar Horas Extras";
-
-    //string fechaHoraActual = DateTime.Now.ToString("yyyy-MM-dd HH:MM");
+    string formatDate = "dd-MM-yyyy";
 }
 
 <style>
@@ -28,11 +27,11 @@
                     <div class="row g-6" style="margin-top:5px;margin-bottom:16px;">
                         <div class="col-md-6">
                             <label asp-for="myFilterControl.fechaInicioRango" for="dtFechaIni" class="form-label">Fecha Inicio:</label>
-                            <input asp-for="myFilterControl.fechaInicioRango" class="form-control" name="fechaini" type="date" id="dtFechaIni" />
+                            <input asp-for="myFilterControl.fechaInicioRango" class="form-control" name="fechaInicioRango" type="date" id="fechaInicioRango" />
                         </div>
                         <div class="col-md-6">
                             <label asp-for="myFilterControl.fechaFinRango" for="dtFechaFin" class="form-label">Fecha Fin:</label>
-                            <input asp-for="myFilterControl.fechaFinRango" class="form-control" name="fechafin" type="date" id="dtFechaFin" />
+                            <input asp-for="myFilterControl.fechaFinRango" class="form-control" name="fechaFinRango" type="date" id="fechaFinRango" />
                         </div>
                         <div class="col mb-6">
                             <label for="txtBuscarPersonal" class="form-label">Personal</label>
@@ -42,7 +41,7 @@
                             </div>
                         </div>
                         <div class="col mb-6">
-                            <input type="hidden" asp-for="myFilterControl.idPersonalFind" id="personalFind" name="personalFind" class="form-control">
+                            <input type="hidden" asp-for="myFilterControl.idPersonalFind" id="idPersonalFind" name="idPersonalFind" class="form-control">
                             <input type="hidden" asp-for="myFilterControl.nombreFind" id="nombreFind" name="nombreFind" class="form-control">
                         </div>
 
@@ -53,12 +52,12 @@
                 </form>                
                 
                 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal" asp-action="estadoNew">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal" onclick="NewOverTime()" asp-action="estadoNew">
                     Nuevo evento
                 </button>
-                <a asp-action="ExportarListaOverTimeFiltro" asp-route-fechaini="@Model.myFilterControl.fechaInicioRango"
-                   asp-route-fechafin="@Model.myFilterControl.fechaFinRango"
-                   asp-route-personalFind="-1" class="btn btn-success"> Exportar A Excel</a>
+                <a asp-action="ExportarListaOverTimeFiltro" asp-route-fechaIni="@Model.myFilterControl.fechaInicioRango.ToString(formatDate)"
+                   asp-route-fechaFin="@Model.myFilterControl.fechaFinRango.ToString(formatDate)"
+                   asp-route-idPersonalFind="@Model.myFilterControl.idPersonalFind" class="btn btn-success">Exportar A Excel</a>
 
                 
                 
@@ -92,7 +91,7 @@
                     <td style='min-width:100px;'>
                             <div class="row-lg-6">
                                 <a class="btn btn-danger btn-sm" asp-action="CrudHoraExtraDelete" asp-route-idOvertime="@d.id" id="btnDelete" onclick="questionDelete(event)"><span class="bi-trash"></span></a>
-                                <a class="btn btn-primary btn-sm" onclick="EditOverTime(Event)"><span class="bi-pencil-square"></span></a>
+                                <a class="btn btn-primary btn-sm" onclick="EditOverTime(@d.id)"><span class="bi-pencil-square"></span></a>
                         </div>
                         
                     </td>
@@ -117,7 +116,7 @@
     <div class="modal-dialog modal-lg">
         <form class="modal-content" asp-action="CrudHoraExtra">
             <div class="modal-header">
-                <h5 class="modal-title" id="backDropModalTitle">Nuevo Registro</h5>
+                <h5 class="modal-title" id="ModalTitle" >Nuevo Evento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -133,6 +132,7 @@
                                     </div>
                                 </div>
                                 <div class="col mb-6">
+                                    <input type="hidden" asp-for="myOverTime.id" id="txtid" class="form-control" id="txtbuscar">
                                     <input type="hidden" asp-for="myOverTime.personal_id" id="txtPersonalId" class="form-control" id="txtbuscar">
                                     <input type="hidden" asp-for="myOverTime.dia_hora_inicio" class="form-control" id="fechaInicio" required />
                                     <input type="hidden" asp-for="myOverTime.dia_hora_fin" class="form-control" id="fechaFin" required />
@@ -184,10 +184,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col mb-6">
-                                        <label asp-for="myOverTime.observacion" class="form-label" for="basic-icon-default-message">Observación</label>
+                                        <label asp-for="myOverTime.observacion" class="form-label" for="txtobservacion">Observación</label>
                                         <div class="input-group input-group-merge">
                                             <span id="basic-icon-default-message2" class="input-group-text"><i class="bx bx-comment"></i></span>
-                                            <textarea asp-for="myOverTime.observacion" id="basic-icon-default-message" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
+                                            <textarea asp-for="myOverTime.observacion" id="txtobservacion" class="form-control" placeholder="Escriba una observación" aria-label="Escriba una observación" aria-describedby="basic-icon-default-message2"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -211,13 +211,55 @@
 @section Scripts{    
     <script>
         var esTurnoCru = false;
-        var StatusCrud: "EDIT" | "DELETE" | "NEW" = "NEW";
+        var StatusCrud = "NEW";
         const urlListasItemTabla = '@Url.Action("listarItemTablas", "Tablas")?id=4'
-        
+
+        function llenaHorarioPersonal(idPersonal, nombreCompleto, area, puesto){
+            let turnoCrusado = ""
+            let textoHorario = ""
+            const areaPuesto = ((area ? area : "sin área") + " / " + (puesto ? puesto : "sin puesto") )
+            $.ajax({
+                url: "@Url.Action("ViewHorarioPersonal", "TiempoExtra")?id_personal=" + idPersonal,
+                dataType: "json",
+                success: function (data) {
+                    if (data) {
+                        data.forEach(d => {
+                            if (d.turnoCrusado == true) {
+                                esTurnoCru = true
+                            }
+
+                            turnoCrusado = (d.turnoCrusado == true ? " <TC> " : "")
+                            textoHorario += d.dia_label + ": " + (d.hora_ingreso).toString().slice(0, 5) + " - " + (d.hora_salida).toString().slice(0, 5) + turnoCrusado + " <i class='text-black-50'>(Refr: " + (d.hora_refr_inicio).toString().slice(0, 5) + "-" + (d.hora_refr_fin).toString().slice(0, 5) + ")</i><br/>"
+                        });
+                        document.getElementById("dataSelected").querySelector("tbody").innerHTML = "";
+                    }
+
+                    if (esTurnoCru == true) {
+                        document.getElementById("FechaFinT").setAttribute("disabled", "false")
+                    } else {
+                        document.getElementById("FechaFinT").setAttribute("disabled", "true")
+                    }
+
+
+                    $("#dataSelected tbody").append(
+                        $("<tr>").append(
+                            $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Personal</small>"),
+                            $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'><b>" + nombreCompleto + "</b></p>")
+                        ),
+                        $("<tr>").append(
+                            $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Área/Puesto</small>"),
+                            $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'>" + areaPuesto + "</p>")
+                        ),
+                        $("<tr>").append(
+                            $("<td class='align - middle' width='80px'>").append("<small class='text-black-50 fw-medium'>Horario</small>"),
+                            $("<td class='py-2 align-middle'>").append("<p class='mb-0' style='font-size: small;'>" + textoHorario + "</p>")
+                        )
+                    )
+                }
+            })
+        }
 
         $(document).ready(function () {
-
-            console.log($("#personalFind").val());
 
             $("#txtBuscarPersonal").val($("#nombreFind").val());
 
@@ -232,11 +274,22 @@
                     })
                 },
                 minLength: 1,
-                select: function (event, ui) {                    
-                    $("#personalFind").val(ui.item.value);
+                select: function (event, ui) {
+                    
+                    $("#idPersonalFind").val(ui.item.value);
                     $("#nombreFind").val(ui.item.label);
+ 
                     event.preventDefault();
                     $(this).val(ui.item.label);
+                },
+                change:function(event, ui){
+                  
+                    if( ui.item == null){
+                        $("#idPersonalFind").val(0);
+                        $("#nombreFind").val("");
+                        event.preventDefault();
+                        $(this).val("");
+                    } 
                 }
 
             })
@@ -310,6 +363,7 @@
             })
 
             $("#sltMotivo").ready(async function () {
+                
                 const valorTabla = 4;
                 const respuesta = await fetch(urlListasItemTabla, {
                     method: "POST",
@@ -319,7 +373,7 @@
                     }                
                 })
                 const json = await respuesta.json();
-                console.log(json);
+                
                 const opciones = json.map(item => `<option value=${item.idSubtabla}>${item.descripcion}</option>`);
                 $("#sltMotivo").html(opciones);
             })
@@ -344,11 +398,12 @@
             const valorSelect = $(this).val();
             const horaI = $("#HoraInicioT").val();
             changeTiempo(valorSelect, horaI, "", "", "I");
-            console.log(esTurnoCru)
+           
             if (esTurnoCru == false) {
                 $("#FechaFinT").val(valorSelect)
             }
         })
+
         $("#HoraInicioT").change(async function () {
             const valorSelect = $(this).val();
             const fechaI = $("#FechaInicioT").val();
@@ -360,6 +415,7 @@
             const horaF = $("#HoraFinT").val();
             changeTiempo("", "", valorSelect, horaF, "F");
         })
+
         $("#HoraIFinT").change(async function () {
             const valorSelect = $(this).val();
             const fechaF = $("#FechaFinT").val();
@@ -399,27 +455,75 @@
             }).then((resultado) =>{
                 if(resultado.isConfirmed){
                     const formulario = document.getElementById("btnDelete");
-                    console.log(formulario);
+                    
                     window.location.href = formulario.href;
                     StatusCrud = "NEW";
                 }
             })
         }
 
+        function NewOverTime(){
+            StatusCrud = "NEW";
+            document.getElementById("txtid").value = 0;
+            document.getElementById("txtobservacion").value = "";
+            document.getElementById("txtPersonalId").value = null;
+            document.getElementById("fechaInicio").value = null;
+            document.getElementById("fechaFin").value = null;
+            document.getElementById("FechaInicioT").value = null;
+            document.getElementById("FechaFinT").value = null;
+            document.getElementById("HoraInicioT").value = null;
+            document.getElementById("HoraIFinT").value = null;
 
-        function EditOverTime(e) {
+            const miSelect = document.getElementById('sltMotivo');
+            for (let i = 0; i < miSelect.options.length; i++) {
+                miSelect.options[i].selected = false;
+            }
+            document.getElementById("ModalTitle").text = "Nuevo Evento";
+            tittleModalText= document.getElementById("ModalTitle");
+            tittleModalText.textContent="Nuevo Evento";
+
+            document.getElementById("dataSelected").querySelector("tbody").innerHTML = "";
+        }
+
+        function EditOverTime( idEdit) {
             StatusCrud = "EDIT";
-            console.log(e)
 
-            const urlSearchOverTime = "@Url.Action("SeachOverTime", "TiempoExtra")?id=7";
+
+            const urlSearchOverTime = "@Url.Action("SeachOverTime", "TiempoExtra")?id=" + idEdit;
             $.ajax({
                 url: urlSearchOverTime,
-                dataType:"Json"
+                dataType:"Json",
                 success: function (data) {
-                    response(data);
+                   document.getElementById("txtid").value = data.id;
+                   document.getElementById("txtobservacion").value = data.observacion;
+                   document.getElementById("txtPersonalId").value = data.personal_id;
+                   document.getElementById("fechaInicio").value = data.dia_hora_inicio;
+                   document.getElementById("fechaFin").value = data.dia_hora_fin;
+                   document.getElementById("FechaInicioT").value = new Date(data.dia_hora_inicio).toISOString().split('T')[0];
+                   document.getElementById("FechaFinT").value = new Date(data.dia_hora_fin).toISOString().split('T')[0];
+                   document.getElementById("HoraInicioT").value = new Date(data.dia_hora_inicio).toTimeString().split(' ')[0];
+                   document.getElementById("HoraIFinT").value = new Date(data.dia_hora_fin).toTimeString().split(' ')[0];
+                   
+                   const motivos = data.motivos
+                   const miSelect = document.getElementById('sltMotivo');
+
+                   for (let i = 0; i < miSelect.options.length; i++) {
+                       miSelect.options[i].selected = false;
+                       const findDate = miSelect.options[i].value;
+                       const result = motivos.filter(i => i.motivo_id == findDate);
+                       if(result.length>0){
+                           miSelect.options[i].selected = true;
+                       }
+                   }
+                    
+                    //buscarModal.value = data.nombre_completo;
+                    llenaHorarioPersonal(data.personal_id, data.nombre_completo, data.area, data.puesto);
+                    tittleModalText= document.getElementById("ModalTitle");
+                    tittleModalText.textContent="Editar Evento";
                 }
             }
             )
+
             $('#backDropModal').modal('show');
 
         }
@@ -446,7 +550,7 @@
                 success: function (data) {
                     document.getElementById("dataTable").querySelector("tbody").innerHTML = "";
                     if (data) {
-                        console.log(data)
+                        
                         data.forEach(d => {
                             const fIniFormato = (new Date(d.dia_hora_inicio)).toLocaleString('es-PE', opcionesFormato);
 
