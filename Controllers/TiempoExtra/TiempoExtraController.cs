@@ -11,6 +11,7 @@ namespace WebApp_SLM.Controllers.TiempoExtra
     {
         private readonly ITiempoExtraRepository repo;
         private readonly ITablasRepository repoT;
+        private readonly IGeneraPdfService pdfService;
 
         private DateTime _fechaInicio = DateTime.Now.AddDays(-30);//.ToString("yyyy-MM-dd");
         private DateTime _fechaActual = DateTime.Now;//.ToString("yyyy-MM-dd");
@@ -33,10 +34,11 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             estado = "NEW"
         };
 
-        public TiempoExtraController(ITiempoExtraRepository rep, ITablasRepository repT)
+        public TiempoExtraController(ITiempoExtraRepository rep, ITablasRepository repT, IGeneraPdfService pdfServ)
         {
             this.repo = rep;  
             this.repoT = repT;
+            this.pdfService = pdfServ;
         }
 
         public async Task<ActionResult> TiempoExtra()
@@ -300,6 +302,14 @@ namespace WebApp_SLM.Controllers.TiempoExtra
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.scheet", nombreArchivo);
                 }
             }
+        }
+
+
+        public IActionResult DescargarPdfPrueba(string fechaIni, string fechaFin, long idPersonalFind)
+        {
+            var pdfBytes = pdfService.GenerarPDFValidacion(null, new DateTime(), new DateTime(), idPersonalFind, "");
+
+            return File(pdfBytes, "application/pdf", "pdf_archivo.pdf");
         }
 
     }

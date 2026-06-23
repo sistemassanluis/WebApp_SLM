@@ -1,3 +1,4 @@
+using QuestPDF.Infrastructure;
 using WebApp_SLM.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ITiempoExtraRepository, TiempoExtraRepository>();
 builder.Services.AddTransient<ITablasRepository, TablasRepository>();
-
+builder.Services.AddTransient<IGeneraPdfService, GeneraPdfService>();
 var app = builder.Build();
-
+QuestPDF.Settings.License = LicenseType.Community;
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -12,6 +12,7 @@
     <PackageReference Include="Dapper" Version="2.1.79" />
     <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+    <PackageReference Include="QuestPDF" Version="2026.6.0" />
   </ItemGroup>
 
 </Project>

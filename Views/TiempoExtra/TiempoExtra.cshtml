@@ -59,6 +59,10 @@
                    asp-route-fechaFin="@Model.myFilterControl.fechaFinRango.ToString(formatDate)"
                    asp-route-idPersonalFind="@Model.myFilterControl.idPersonalFind" class="btn btn-success">Exportar A Excel</a>
 
+                <a asp-action="DescargarPdfPrueba" asp-route-fechaIni="@Model.myFilterControl.fechaInicioRango.ToString(formatDate)"
+                   asp-route-fechaFin="@Model.myFilterControl.fechaFinRango.ToString(formatDate)"
+                   asp-route-idPersonalFind="@Model.myFilterControl.idPersonalFind" class="btn btn-success">Exportar A Pdf</a>
+
                 
                 
             </div>
