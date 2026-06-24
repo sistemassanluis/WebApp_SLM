@@ -6,6 +6,7 @@ using WebApp_SLM.Models;
 using System.Data;
 using System.Collections.Immutable;
 using System.Collections.Generic;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace WebApp_SLM.Services
 {
@@ -16,6 +17,7 @@ namespace WebApp_SLM.Services
         Task <IEnumerable<ListaTiempoExtra>> ListarHorasExtras(DateTime fechaini, DateTime fechafin, long personal);
         List<FindPersonal> SeachPersonal(string texto);
         Task<IEnumerable<HorarioPersonal>> ViewHorarioPersonal(long id_personal);
+        Task<IEnumerable<ListarTiempoExtraConsolidado>> ListarHorasExtrasConsolidado(DateTime fechaini, DateTime fechafin);
     }
     public class TiempoExtraRepository : ITiempoExtraRepository
     {
@@ -156,6 +158,38 @@ namespace WebApp_SLM.Services
                 commandType: System.Data.CommandType.StoredProcedure
                 );
             return lista;
+        }
+
+        public async Task<IEnumerable<ListarTiempoExtraConsolidado>> ListarHorasExtrasConsolidado(DateTime fechaini, DateTime fechafin)
+        {
+            using var conn = new SqlConnection(connSqlRRHH);
+            IEnumerable<ListarTiempoExtraConsolidado> lista = await conn.QueryAsync<ListarTiempoExtraConsolidado>("sp_ast_lista_overtime_consolidated",
+                new
+                {
+                    fechaini,
+                    fechafin                    
+                },
+                commandType: System.Data.CommandType.StoredProcedure
+                );
+            return lista;
+        }
+
+        public async Task<Boolean> ValidarTiempoExtra(DateTime fechaini, DateTime fechafin, long personal)
+        {
+            Boolean valid = false;
+
+            using var conn = new SqlConnection(connSqlRRHH);
+            int lista = await conn.QueryFirstAsync<int>("sp_ast_valida_hora_extra",
+                new
+                {
+                    fechaini,
+                    fechafin,
+                    personal
+                },
+                commandType: System.Data.CommandType.StoredProcedure
+                );
+
+            return valid;
         }
         public async Task Crud_HoraExtra(OverTime overtime, List<MiListaType> motivos, String tipoTrs)
         {

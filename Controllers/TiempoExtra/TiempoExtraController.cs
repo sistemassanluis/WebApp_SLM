@@ -305,7 +305,7 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         }
 
 
-        public async Task<IActionResult> DescargarPdfPrueba(string fechaIni, string fechaFin, long idPersonalFind, string nombrePersonalFind)
+        public async Task<IActionResult> DescargarPdfDetallado(string fechaIni, string fechaFin, long idPersonalFind, string nombrePersonalFind)
         {
             string nombre = "";
             if(nombrePersonalFind == null)
@@ -316,12 +316,21 @@ namespace WebApp_SLM.Controllers.TiempoExtra
                 nombre = (nombrePersonalFind.Trim().Length > 0 ? nombrePersonalFind.Trim() : "Todos");
             }
 
-            IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
-            
+            DateTime fI = DateTime.Parse(fechaIni);
+            DateTime fF = DateTime.Parse(fechaFin);
+            IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(fI, fF, idPersonalFind);
             var documento = new GeneraPdfService(fechaIni, fechaFin, nombre, listaTiempoExtras);
             var pdf = documento.GenerarPDFValidacion();
+            return File(pdf, "application/pdf", "pdf_archivo.pdf");
+        }
 
-     
+        public async Task<ActionResult> DescargarPdfConsolidado(string fechaIni, string fechaFin)
+        {
+            DateTime fI = DateTime.Parse(fechaIni);
+            DateTime fF = DateTime.Parse(fechaFin);
+            IEnumerable<ListarTiempoExtraConsolidado> listaTiempoExtras = await repo.ListarHorasExtrasConsolidado(fI, fF);
+            var documento = new GeneraPdfService(fechaIni, fechaFin, "", listaTiempoExtras);
+            var pdf = documento.GenerarPDFValidacionConsolidado();
             return File(pdf, "application/pdf", "pdf_archivo.pdf");
         }
 
