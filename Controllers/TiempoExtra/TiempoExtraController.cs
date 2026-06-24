@@ -11,7 +11,7 @@ namespace WebApp_SLM.Controllers.TiempoExtra
     {
         private readonly ITiempoExtraRepository repo;
         private readonly ITablasRepository repoT;
-        private readonly IGeneraPdfService pdfService;
+        //private readonly IGeneraPdfService pdfService;
 
         private DateTime _fechaInicio = DateTime.Now.AddDays(-30);//.ToString("yyyy-MM-dd");
         private DateTime _fechaActual = DateTime.Now;//.ToString("yyyy-MM-dd");
@@ -34,11 +34,11 @@ namespace WebApp_SLM.Controllers.TiempoExtra
             estado = "NEW"
         };
 
-        public TiempoExtraController(ITiempoExtraRepository rep, ITablasRepository repT, IGeneraPdfService pdfServ)
+        public TiempoExtraController(ITiempoExtraRepository rep, ITablasRepository repT/*, IGeneraPdfService pdfServ*/)
         {
             this.repo = rep;  
             this.repoT = repT;
-            this.pdfService = pdfServ;
+            //this.pdfService = pdfServ;
         }
 
         public async Task<ActionResult> TiempoExtra()
@@ -305,11 +305,24 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         }
 
 
-        public IActionResult DescargarPdfPrueba(string fechaIni, string fechaFin, long idPersonalFind)
+        public async Task<IActionResult> DescargarPdfPrueba(string fechaIni, string fechaFin, long idPersonalFind, string nombrePersonalFind)
         {
-            var pdfBytes = pdfService.GenerarPDFValidacion(null, new DateTime(), new DateTime(), idPersonalFind, "");
+            string nombre = "";
+            if(nombrePersonalFind == null)
+            {
+                nombre = "Todos";
+            } else
+            {
+                nombre = (nombrePersonalFind.Trim().Length > 0 ? nombrePersonalFind.Trim() : "Todos");
+            }
 
-            return File(pdfBytes, "application/pdf", "pdf_archivo.pdf");
+            IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
+            
+            var documento = new GeneraPdfService(fechaIni, fechaFin, nombre, listaTiempoExtras);
+            var pdf = documento.GenerarPDFValidacion();
+
+     
+            return File(pdf, "application/pdf", "pdf_archivo.pdf");
         }
 
     }

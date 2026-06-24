@@ -5,46 +5,59 @@ using QuestPDF.Infrastructure;
 
 namespace WebApp_SLM.Services
 {
+    
     public class GeneraPdfService : IGeneraPdfService
     {
-        public byte[] GenerarPDFValidacion(ListaTiempoExtra lista, DateTime fechaIni, DateTime fechaFin, long idPersonal, string nombrePersonal )
+        public readonly string _fechaInicio;
+        public readonly string _fechaFin;
+        public readonly string _nombrePersonal;
+        IEnumerable<ListaTiempoExtra> _listaTiempoExtra;
+
+        public GeneraPdfService(string fechaInicio, string fechaFin, string nombrePersonal, IEnumerable<ListaTiempoExtra> listaTiempoExtra)
         {
+            _fechaInicio = fechaInicio;
+            _fechaFin = fechaFin;
+            _nombrePersonal = nombrePersonal;
+            _listaTiempoExtra = listaTiempoExtra;
+        }
+
+        public byte[] GenerarPDFValidacion()
+        {
+            
+
             var documento = Document.Create(container =>
             {
                 container.Page(page =>
                 {
                     page.Size(PageSizes.A4);
-                    page.Margin(2, Unit.Centimetre);
+                    page.Margin(1, Unit.Centimetre);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(20));
+                    page.DefaultTextStyle(x => x.FontSize(14));
 
-                    page.Header()
-                        .Text("Lista de Horas Extras")
-                        .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
-
-                    page.Content()
-                        .PaddingVertical(1, Unit.Centimetre)
-                        .Column(x =>
-                        {
-                            x.Spacing(20);
-
-                            x.Item().Text(Placeholders.LoremIpsum());
-                            x.Item().Image(Placeholders.Image(200, 100));
-                        });
-
-                    page.Footer()
-                        .AlignCenter()
-                        .Text(x =>
-                        {
-                            x.Span("Page ");
-                            x.CurrentPageNumber();
-                        });
+                    page.Header().Element(buildHeader);
+                   
                 });
             });
 
             using var stream = new MemoryStream();
             documento.GeneratePdf(stream);
             return stream.ToArray();
+
+        }
+
+        private void buildHeader(IContainer contenedor)
+        {
+            DateTime fechaHoy = DateTime.Now;
+            contenedor.Row(fila =>
+            {
+                fila.RelativeItem().Column(columna =>
+                {
+                    columna.Item().Height(5, Unit.Millimetre).AlignRight().Text($"Fecha hora de Impresión:{fechaHoy.ToString("dd-MM-yyyy HH:mm:ss")}").FontSize(8);
+                    columna.Item().Text("");
+                    columna.Item().Height(1, Unit.Centimetre).AlignCenter().Text("LISTA DE EVENTOS HORA EXTRA").FontSize(14);
+                    columna.Item().Height(5, Unit.Millimetre).AlignCenter().Text($"Rango de Fechas: {_fechaInicio} - {_fechaFin}   Personal: {_nombrePersonal} .").FontSize(10);
+                });
+            });
 
         }
     }
