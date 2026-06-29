@@ -202,9 +202,15 @@ namespace WebApp_SLM.Controllers.TiempoExtra
 
             if (!ModelState.IsValid)
             {
-                return View(overtime);
+                return View("TiempoExtra", vte);
             }
             string tipoProceso = (overtime.myOverTime.id == 0 ? "I": "U");
+                var correcto = await repo.ValidarTiempoExtra(overtime.myOverTime.dia_hora_inicio, overtime.myOverTime.dia_hora_fin, overtime.myOverTime.personal_id);
+                if (!correcto)
+                { 
+                    ModelState.AddModelError(nameof(overtime.myOverTime.dia_hora_fin) , "El rango de fecha y hora registrado esta dentro del horario laboral");
+                    return View("TiempoExtra", vte);
+                }
 
             IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
             await repo.Crud_HoraExtra(overtime.myOverTime, lista, tipoProceso);
@@ -247,6 +253,17 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         public IActionResult ExcelReporte()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> validarHorarioHoraExtra(ViewTiempoExtra overtime)
+        {
+            var correcto = await repo.ValidarTiempoExtra(overtime.myOverTime.dia_hora_inicio, overtime.myOverTime.dia_hora_fin, overtime.myOverTime.personal_id);
+            if (!correcto)
+            {
+                return Json("El rango de fecha y hora registrado esta dentro del horario laboral");
+            }
+            return Json(true);
         }
 
         [HttpGet]

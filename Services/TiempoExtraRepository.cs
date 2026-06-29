@@ -18,6 +18,7 @@ namespace WebApp_SLM.Services
         List<FindPersonal> SeachPersonal(string texto);
         Task<IEnumerable<HorarioPersonal>> ViewHorarioPersonal(long id_personal);
         Task<IEnumerable<ListarTiempoExtraConsolidado>> ListarHorasExtrasConsolidado(DateTime fechaini, DateTime fechafin);
+        Task<bool> ValidarTiempoExtra(DateTime fechaini, DateTime fechafin, long personal);
     }
     public class TiempoExtraRepository : ITiempoExtraRepository
     {
@@ -174,23 +175,22 @@ namespace WebApp_SLM.Services
             return lista;
         }
 
-        public async Task<Boolean> ValidarTiempoExtra(DateTime fechaini, DateTime fechafin, long personal)
-        {
-            Boolean valid = false;
-
+        public async Task<bool> ValidarTiempoExtra(DateTime fechaini, DateTime fechafin, long personal)
+        {            
             using var conn = new SqlConnection(connSqlRRHH);
-            int lista = await conn.QueryFirstAsync<int>("sp_ast_valida_hora_extra",
-                new
-                {
-                    fechaini,
-                    fechafin,
-                    personal
-                },
+            var parametros = new DynamicParameters();
+            parametros.Add("@fechaHora_inicio", fechaini);
+            parametros.Add("@fechaHora_fin", fechafin);
+            parametros.Add("@id_personal", personal);
+
+            int resp = await conn.QueryFirstOrDefaultAsync<int>("sp_ast_valida_hora_extra",
+                parametros,
                 commandType: System.Data.CommandType.StoredProcedure
                 );
 
-            return valid;
+            return resp == 0;
         }
+
         public async Task Crud_HoraExtra(OverTime overtime, List<MiListaType> motivos, String tipoTrs)
         {
             DataTable dtMot = new DataTable();
