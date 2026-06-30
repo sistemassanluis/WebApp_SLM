@@ -205,12 +205,12 @@ namespace WebApp_SLM.Controllers.TiempoExtra
                 return View("TiempoExtra", vte);
             }
             string tipoProceso = (overtime.myOverTime.id == 0 ? "I": "U");
-                var correcto = await repo.ValidarTiempoExtra(overtime.myOverTime.dia_hora_inicio, overtime.myOverTime.dia_hora_fin, overtime.myOverTime.personal_id);
-                if (!correcto)
-                { 
-                    ModelState.AddModelError(nameof(overtime.myOverTime.dia_hora_fin) , "El rango de fecha y hora registrado esta dentro del horario laboral");
-                    return View("TiempoExtra", vte);
-                }
+            /*var correcto = await repo.ValidarTiempoExtra(overtime.myOverTime.dia_hora_inicio, overtime.myOverTime.dia_hora_fin, overtime.myOverTime.personal_id);
+            if (!correcto)
+            { 
+                ModelState.AddModelError(nameof(overtime.myOverTime.dia_hora_fin) , "El rango de fecha y hora registrado esta dentro del horario laboral");
+                return View("TiempoExtra", vte);
+            }*/
 
             IEnumerable<ListaTiempoExtra> listaTiempoExtras = await repo.ListarHorasExtras(_fechaInicio, _fechaActual, _idFiltro);
             await repo.Crud_HoraExtra(overtime.myOverTime, lista, tipoProceso);
@@ -256,14 +256,17 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         }
 
         [HttpGet]
-        public async Task<ActionResult> validarHorarioHoraExtra(ViewTiempoExtra overtime)
+        public async Task<ActionResult> validarHorarioHoraExtra(string fechaIni, string fechaFin, long personal_id)
         {
-            var correcto = await repo.ValidarTiempoExtra(overtime.myOverTime.dia_hora_inicio, overtime.myOverTime.dia_hora_fin, overtime.myOverTime.personal_id);
+            DateTime fI = DateTime.Parse(fechaIni);
+            DateTime fF = DateTime.Parse(fechaFin);
+            var correcto = await repo.ValidarTiempoExtra(fI, fF, personal_id);
+            
             if (!correcto)
             {
                 return Json("El rango de fecha y hora registrado esta dentro del horario laboral");
             }
-            return Json(true);
+            return Json("");
         }
 
         [HttpGet]

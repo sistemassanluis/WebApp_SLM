@@ -130,12 +130,12 @@
 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-lg">
         
-        <form class="modal-content" asp-action="CrudHoraExtra">
+        <form method="post" class="modal-content" asp-action="CrudHoraExtra" id="frmCrud" onsubmit="validaDatosOverTime(event)">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalTitle" >Nuevo Evento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div asp-validation-summary="All" class="text-danger">
+            <div asp-validation-summary="All" class="text-danger" id="validationError">
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -218,7 +218,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                <button type="button" class="btn btn-outline-secondary" id="btnGuardar" data-bs-dismiss="modal" >Cerrar</button>
                 <button class="btn btn-primary">Guardar</button>
             </div>
         </form>
@@ -461,6 +461,32 @@
             }
         }
 
+        function validaDatosOverTime(e){
+            e.preventDefault();
+            const formulario = document.getElementById("frmCrud");
+            const fechaInicio = $("#fechaInicio").val();
+            const fechaFin = $("#fechaFin").val();
+            const personal_id = $("#txtPersonalId").val();
+            const urlValidarHorario = "@Url.Action("validarHorarioHoraExtra", "TiempoExtra")?fechaIni=" + fechaInicio + "&fechaFin=" + fechaFin + "&personal_id=" + personal_id;
+            console.log(urlValidarHorario);
+            $.ajax({
+                url: urlValidarHorario,
+                dataType: "json",
+                success: function(data){
+                    const textoError = data
+                    if(textoError.length>0){
+                        const validationSummary = document.getElementById('validationError');
+                        const ul = validationSummary.querySelector('ul');
+                        const li = document.createElement('li');
+                        li.textContent = textoError;
+                        ul.appendChild(li);
+                    } else {
+                        formulario.submit();                        
+                    }
+                }
+            })
+        } 
+
         function questionDelete(e){
             StatusCrud = "DELETE";
             e.preventDefault();
@@ -492,6 +518,10 @@
             document.getElementById("HoraInicioT").value = null;
             document.getElementById("HoraIFinT").value = null;
 
+            const validationSummary = document.getElementById('validationError');
+            const ul = validationSummary.querySelector('ul');
+            ul.innerHTML = '';
+
             const miSelect = document.getElementById('sltMotivo');
             for (let i = 0; i < miSelect.options.length; i++) {
                 miSelect.options[i].selected = false;
@@ -521,7 +551,11 @@
                    document.getElementById("FechaFinT").value = new Date(data.dia_hora_fin).toISOString().split('T')[0];
                    document.getElementById("HoraInicioT").value = new Date(data.dia_hora_inicio).toTimeString().split(' ')[0];
                    document.getElementById("HoraIFinT").value = new Date(data.dia_hora_fin).toTimeString().split(' ')[0];
-                   
+
+                   const validationSummary = document.getElementById('validationError');
+                   const ul = validationSummary.querySelector('ul');
+                   ul.innerHTML = '';
+
                    const motivos = data.motivos
                    const miSelect = document.getElementById('sltMotivo');
 
