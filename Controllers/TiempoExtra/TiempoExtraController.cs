@@ -190,9 +190,9 @@ namespace WebApp_SLM.Controllers.TiempoExtra
         public async Task<ActionResult> CrudHoraExtra(ViewTiempoExtra overtime)
         {
             overtime.myOverTime.id_user_add = 1;
-            overtime.myOverTime.observacion = overtime.myOverTime.observacion.Trim().Length > 0 ? overtime.myOverTime.observacion.Trim() : "Sin Observación";
+            string observacion = overtime.myOverTime.observacion == null ? "": overtime.myOverTime.observacion.Trim();
+            overtime.myOverTime.observacion = observacion.Length > 0 ? observacion : "Sin Observación";
             
-
             List<MiListaType> lista = new List<MiListaType>();
             foreach (var item in overtime.myOverTime.motivos)
             {
